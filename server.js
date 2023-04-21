@@ -1,80 +1,112 @@
 const express = require('express');
 const mysql = require('mysql');
-const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 const app = express();
 
-// Middleware to parse JSON request bodies
 app.use(express.json());
-
-// Middleware to allow cross-origin requests
 app.use(cors());
 
-// Create connection to the database
+const secretKey = 'mysecretkey';
+
 const connection = mysql.createConnection({
   host: 'localhost',
-  port: 3306, // xampp mysql
   user: 'root',
   password: '',
-  database: 'food_db'
+  database: 'food_db',
+  port: '3306'
 });
 
-// Connect to the database
-connection.connect((error) => {
-  if (error) {
-    console.error('Error connecting to database:', error);
+connection.connect((err) => {
+  if (err) {
+    console.log('Error connecting to the database:', err);
   } else {
-    console.log('Connected to database');
+    console.log('Connected to the database!');
   }
 });
 
-// Define a route that returns data from the database
-app.post('/api/users', (req, res) => {
-  const { username, firstName, lastName, email, mobilenumber, password } = req.body;
-  const hashedPassword = bcrypt.hashSync(password, 10);
+// Register endpoint
+app.post('/api/register', (req, res) => {
+  const { username, firstname, lastname, email, mobilenumber, password } = req.body;
 
-  connection.query(
-    'INSERT INTO users (username, firstname, lastname, email, mobilenumber, password) VALUES (?, ?, ?, ?, ?, ?)',
-    [username, firstName, lastName, email, mobilenumber, hashedPassword],
-    (error, results) => {
-      if (error) {
-        console.error(error);
-        res.status(500).send('Error inserting user into database');
-      } else {
-        res.send(`User ${username} registered successfully!`);
-      }
-    }
-  );
-});
+  const hash = bcrypt.hashSync(password, 10);
 
-app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;
+  const sql = `INSERT INTO users (username, firstname, lastname, email, mobilenumber, password)
+               VALUES ('${username}', '${firstname}', '${lastname}', '${email}', '${mobilenumber}', '${hash}')`;
 
-  connection.query('SELECT * FROM users WHERE username = ?', [username], (error, results) => {
-    if (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Server error' });
-    } else if (results.length === 0) {
-      res.status(401).json({ message: 'Invalid username or password' });
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log('Error inserting new user:', err);
+      res.status(500).send('Error inserting new user');
     } else {
-      const user = results[0];
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (err) {
-          console.error(err);
-          res.status(500).json({ message: 'Server error' });
-        } else if (result) {
-          res.status(200).json({ message: 'Login successful', user: { id: user.id, username: user.username, email: user.email, firstname: user.firstname, lastname: user.lastname, mobilenumber: user.mobilenumber }  });
-        } else {
-          res.status(401).json({ message: 'Invalid username or password' });
-        }
-      });
+      console.log('New user registered!');
+      res.sendStatus(200);
     }
   });
 });
 
-// Start the server
-const PORT = 4000;
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+// Login endpoint
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+
+  const sql = `SELECT * FROM users WHERE username = '${username}'`;
+
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log('Error fetching user:', err);
+      res.status(500).send('Error fetching user');
+    } else if (result.length === 0) {
+      console.log('User not found!');
+      res.status(401).send('User not found');
+    } else {
+      const user = result[0];
+
+      if (bcrypt.compareSync(password, user.password)) {
+        console.log('User authenticated!');
+
+        const token = jwt.sign({ username: user.username }, secretKey);
+
+        res.json({ token });
+      } else {
+        console.log('Incorrect password!');
+        res.status(401).send('Incorrect password');
+      }
+    }
+  });
+});
+
+// User info endpoint
+app.get('/api/user', authenticateToken, (req, res) => {
+  const sql = `SELECT id, username, firstname, lastname, email, mobilenumber FROM users WHERE username = '${req.user.username}'`;
+
+  connection.query(sql, (err, result) => {
+    if (err) {
+      console.log('Error fetching user info:', err);
+      res.status(500).send('Error fetching user info');
+    } else {
+      const user = result[0];
+
+      res.json(user);
+    }
+  });
+});
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, secretKey, (err, user) => {
+    if (err) return res.sendStatus(403);
+
+    req.user = user;
+    next();
+  });
+}
+
+app.listen(3000, () => {
+  console.log('Server listening on port 3000');
 });

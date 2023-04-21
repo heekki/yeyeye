@@ -6,55 +6,55 @@ import RegistrationPage from './components/RegistrationPage';
 import RecipePage from './components/RecipePage';
 
 const App = () => {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+    const [authenticated, setAuthenticated] = useState(false);
+    const [user, setUser] = useState(null);
 
-  const handleLogout = () => {
-    setAuthenticated(false);
-    setUser(null);
-  };
+    const handleLogout = () => {
+        setAuthenticated(false);
+        setUser(null);
+    };
 
-  return (
-    <Router>
-      <div>
-        <h1>My App</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            {!authenticated && (
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-            )}
-            {authenticated && (
-              <li>
-                <button onClick={handleLogout}>Logout</button>
-              </li>
-            )}
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
-          </ul>
-        </nav>
-        <Switch>
-          <Route path="/login">
-            <LoginPage setAuthenticated={setAuthenticated} setUser={setUser} />
-          </Route>
-          <Route path="/register">
-            <RegistrationPage />
-          </Route>
-          <Route path="/">
-            {authenticated ? <HomePage user={user} handleLogout={handleLogout} /> : <Redirect to="/login" />}
-          </Route>
-          <Route path="/recipe/:id">
-            <RecipePage />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+            <div>
+                <h1>My App</h1>
+                <nav>
+                    <ul>
+                        <li>
+                            <Link to="/">Home</Link>
+                        </li>
+                        {!authenticated && (
+                            <li>
+                                <Link to="/login">Login</Link>
+                            </li>
+                        )}
+                        {authenticated && (
+                            <li>
+                                <button onClick={handleLogout}>Logout</button>
+                            </li>
+                        )}
+                        <li>
+                            <Link to="/register">Register</Link>
+                        </li>
+                    </ul>
+                </nav>
+                <Switch>
+                    <Route path="/login">
+                        <LoginPage setAuthenticated={setAuthenticated} setUser={setUser} />
+                    </Route>
+                    <Route path="/register">
+                        <RegistrationPage />
+                    </Route>
+                    <Route path="/">
+                        {authenticated ? <HomePage user={user} handleLogout={handleLogout} /> : <Redirect to="/login" />}
+                    </Route>
+                    <Route path="/recipe/:id">
+                        <RecipePage />
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
+    );
 };
 
 export default App;
