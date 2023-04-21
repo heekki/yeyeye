@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-ro
 import LoginPage from './components/LoginPage';
 import HomePage from './components/HomePage';
 import RegistrationPage from './components/RegistrationPage';
+//import RecipePage from './components/RecipePage';
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);

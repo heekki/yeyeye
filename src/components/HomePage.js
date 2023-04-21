@@ -1,22 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import SearchBar from './SearchBar';
 
-const HomePage = ({ user, handleLogout }) => {
+const HomePage = ({ user, handleLogout }, props) => {
+  const [recipes, setRecipes] = useState([]);
+
   return (
     <div>
-      <h2>Welcome to the Home Page</h2>
-      {user && (
-        <div>
-          <p>You are logged in as {user.username}.</p>
-          <p>Name: {user.firstname} {user.lastname}</p>
-          <p>Email: {user.email}</p>
-          <p>Mobile Number: {user.mobilenumber}</p>
-        </div>
-      )}
-      <button onClick={handleLogout}>Logout</button>
-      <br />
-      <br />
-      <Link to="/register">Register</Link>
+      <h2>Welcome {user.firstname}!</h2>
+      <SearchBar setSearchResults={setRecipes} />
+      <div>
+        {recipes &&
+          recipes.map((recipe) => (
+            <div key={recipe.idMeal}>
+              <h3>{recipe.strMeal}</h3>
+              <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+            </div>
+          ))}
+      </div>
     </div>
   );
 };
