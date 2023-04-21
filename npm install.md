@@ -7,6 +7,7 @@ axios                   \
 bcrypt                  \
 cors                    \
 express                 \
+jsonwebtoken            \
 mysql                   
 
 export NODE_OPTIONS=--openssl-legacy-provider
