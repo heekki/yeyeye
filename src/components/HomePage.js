@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
-import RecipePage from "./RecipePage";
+//import RecipePage from "./RecipePage";
 
 const HomePage = ({ user, handleLogout }, props) => {
     const [searchResults, setSearchResults] = useState([]);
@@ -12,14 +13,14 @@ const HomePage = ({ user, handleLogout }, props) => {
                 <div className="recipe-list">
                 {searchResults &&
                     searchResults.map((meal) => (
-                        <RecipePage
-                            key={meal.idMeal}
-                            id={meal.idMeal}
-                            name={meal.strMeal}
-                            image={meal.strMealThumb}
-                            category={meal.strCategory}
-                        />
-                    ))}
+                        <div key={meal.idMeal}>
+                            <Link to={`/recipe/${meal.idMeal}`}>
+                                <img src={meal.strMealThumb} alt={meal.strMeal} />
+                                <h3>{meal.strMeal}</h3>
+                            </Link>
+                        </div>
+                    ))
+                }
             </div>
         </div>
     );
