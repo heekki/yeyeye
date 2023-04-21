@@ -3,6 +3,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Subpage from "./components/Subpage";
+import Recipe from "./components/Recipe";
 import PrivateRoute from "./components/PrivateRoute";
 import { useState } from "react";
 
@@ -46,17 +47,20 @@ function App() {
 
             <Switch>
 
-            <PrivateRoute exact path="/" isLoggedIn={isLoggedIn}>
-                <Home />
-            </PrivateRoute>
             <Route path="/login">
                 <Login setIsLoggedIn={setIsLoggedIn} />
             </Route>
             <Route path="/register">
                 <Register />
             </Route>
+            <PrivateRoute exact path="/" isLoggedIn={isLoggedIn}>
+                <Home />
+            </PrivateRoute>
             <PrivateRoute path="/subpage" isLoggedIn={isLoggedIn}>
                 <Subpage />
+            </PrivateRoute>
+            <PrivateRoute path="/recipe/:id" isLoggedIn={isLoggedIn}>
+                <Recipe />
             </PrivateRoute>
             </Switch>
         </div>

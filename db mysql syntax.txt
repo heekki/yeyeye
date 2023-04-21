@@ -1,0 +1,28 @@
+CREATE DATABASE food_db;
+
+USE food_db;
+
+CREATE TABLE USER (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    mobilenumber VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE RECIPE (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    ingredients TEXT NOT NULL,
+    procedure TEXT NOT NULL
+);
+
+CREATE TABLE USER_RECIPE (
+    user_id INT,
+    recipe_id INT,
+    PRIMARY KEY (user_id, recipe_id),
+    FOREIGN KEY (user_id) REFERENCES USER(id),
+    FOREIGN KEY (recipe_id) REFERENCES RECIPE(id)
+);

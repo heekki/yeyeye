@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
-function Recipe(props) {
+function Recipe() {
     const [recipe, setRecipe] = useState(null);
+    const { id } = useParams();
 
     useEffect(() => {
         const fetchRecipe = async () => {
             const response = await fetch(
-                `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${props.id}`
+                `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
             );
             const data = await response.json();
             setRecipe(data.meals[0]);
         };
 
         fetchRecipe();
-    }, [props.id]);
+    }, [id]);
 
     if (!recipe) {
         return <div>Loading...</div>;
@@ -44,7 +45,7 @@ function Recipe(props) {
             </ul>
             <h3>Instructions:</h3>
             <p>{recipe.strInstructions}</p>
-            <Link to="/">Back to Search Results</Link>
+            <Link to="/">Back to Search</Link>
         </div>
     );
 }
