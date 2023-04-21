@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
-//import RecipePage from "./RecipePage";
 
-const HomePage = ({ user, handleLogout }, props) => {
+const Home = () => {
     const [searchResults, setSearchResults] = useState([]);
 
     return (
+        <>
         <div>
-            <h2>Welcome {user.firstname}!</h2>
+            <h1>Home</h1>
+            <p>Welcome to the Home page!</p>
+        </div>
+        <div>
             <SearchBar setSearchResults={setSearchResults} />
                 <div className="recipe-list">
                 {searchResults &&
@@ -23,7 +26,8 @@ const HomePage = ({ user, handleLogout }, props) => {
                 }
             </div>
         </div>
+        </>
     );
 };
 
-export default HomePage;
+export default Home;

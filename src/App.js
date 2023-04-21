@@ -1,60 +1,67 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
-import LoginPage from './components/LoginPage';
-import HomePage from './components/HomePage';
-import RegistrationPage from './components/RegistrationPage';
-import RecipePage from './components/RecipePage';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Subpage from "./components/Subpage";
+import PrivateRoute from "./components/PrivateRoute";
+import { useState } from "react";
 
-const App = () => {
-    const [authenticated, setAuthenticated] = useState(false);
-    const [user, setUser] = useState(null);
+function App() {
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') !== null);
 
     const handleLogout = () => {
-        setAuthenticated(false);
-        setUser(null);
+        setIsLoggedIn(false);
+        localStorage.removeItem("token");
     };
 
     return (
         <Router>
-            <div>
-                <h1>My App</h1>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        {!authenticated && (
-                            <li>
-                                <Link to="/login">Login</Link>
-                            </li>
-                        )}
-                        {authenticated && (
-                            <li>
-                                <button onClick={handleLogout}>Logout</button>
-                            </li>
-                        )}
-                        <li>
-                            <Link to="/register">Register</Link>
-                        </li>
-                    </ul>
-                </nav>
-                <Switch>
-                    <Route path="/login">
-                        <LoginPage setAuthenticated={setAuthenticated} setUser={setUser} />
-                    </Route>
-                    <Route path="/register">
-                        <RegistrationPage />
-                    </Route>
-                    <Route path="/">
-                        {authenticated ? <HomePage user={user} handleLogout={handleLogout} /> : <Redirect to="/login" />}
-                    </Route>
-                    <Route path="/recipe/:id">
-                        <RecipePage />
-                    </Route>
-                </Switch>
-            </div>
+        <div>
+            <nav>
+            <ul>
+                <li>
+                <a href="/">Home</a>
+                </li>
+                {isLoggedIn ? (
+                <li>
+                    <a href="/subpage">Subpage</a>
+                </li>
+                ) : null}
+                {isLoggedIn ? (
+                <li>
+                    <button onClick={handleLogout}>Logout</button>
+                </li>
+                ) : (
+                <>
+                    <li>
+                    <a href="/login">Login</a>
+                    </li>
+                    <li>
+                    <a href="/register">Register</a>
+                    </li>
+                </>
+                )}
+            </ul>
+            </nav>
+
+            <Switch>
+
+            <PrivateRoute exact path="/" isLoggedIn={isLoggedIn}>
+                <Home />
+            </PrivateRoute>
+            <Route path="/login">
+                <Login setIsLoggedIn={setIsLoggedIn} />
+            </Route>
+            <Route path="/register">
+                <Register />
+            </Route>
+            <PrivateRoute path="/subpage" isLoggedIn={isLoggedIn}>
+                <Subpage />
+            </PrivateRoute>
+            </Switch>
+        </div>
         </Router>
     );
-};
+}
 
 export default App;

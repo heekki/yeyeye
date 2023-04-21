@@ -1,7 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
 const app = express();
@@ -9,104 +9,67 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const secretKey = 'mysecretkey';
-
-const connection = mysql.createConnection({
+const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
     database: 'food_db',
-    port: '3306'
+    port: 3306,
 });
 
-connection.connect((err) => {
+db.connect((err) => {
     if (err) {
-        console.log('Error connecting to the database:', err);
-    } else {
-        console.log('Connected to the database!');
+        throw err;
     }
+    console.log('Connected to database');
 });
 
-// Register endpoint
 app.post('/api/register', (req, res) => {
     const { username, firstname, lastname, email, mobilenumber, password } = req.body;
-
-    const hash = bcrypt.hashSync(password, 10);
-
-    const sql = `INSERT INTO users (username, firstname, lastname, email, mobilenumber, password)
-                             VALUES ('${username}', '${firstname}', '${lastname}', '${email}', '${mobilenumber}', '${hash}')`;
-
-    connection.query(sql, (err, result) => {
+    bcrypt.hash(password, 10, (err, hash) => {
         if (err) {
-            console.log('Error inserting new user:', err);
-            res.status(500).send('Error inserting new user');
+            res.status(500).send('Error hashing password');
         } else {
-            console.log('New user registered!');
-            res.sendStatus(200);
+            const sql = 'INSERT INTO users (username, firstname, lastname, email, mobilenumber, password) VALUES (?, ?, ?, ?, ?, ?)';
+            db.query(sql, [username, firstname, lastname, email, mobilenumber, hash], (err, result) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).send('Error registering new user');
+                } else {
+                    res.status(200).send('User registered successfully');
+                }
+            });
         }
     });
 });
 
-// Login endpoint
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
-
-    const sql = `SELECT * FROM users WHERE username = '${username}'`;
-
-    connection.query(sql, (err, result) => {
+    const sql = 'SELECT * FROM users WHERE username = ?';
+    db.query(sql, [username], (err, result) => {
         if (err) {
-            console.log('Error fetching user:', err);
+            console.log(err);
             res.status(500).send('Error fetching user');
         } else if (result.length === 0) {
-            console.log('User not found!');
-            res.status(401).send('User not found');
+            res.status(401).send('Username or password is incorrect');
         } else {
             const user = result[0];
-
-            if (bcrypt.compareSync(password, user.password)) {
-                console.log('User authenticated!');
-
-                const token = jwt.sign({ username: user.username }, secretKey);
-
-                res.json({ token });
-            } else {
-                console.log('Incorrect password!');
-                res.status(401).send('Incorrect password');
-            }
+            bcrypt.compare(password, user.password, (err, match) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).send('Error comparing passwords');
+                } else if (!match) {
+                    res.status(401).send('Username or password is incorrect');
+                } else {
+                    const token = jwt.sign({ id: user.id }, 'secret');
+                    res.status(200).json({ token });
+                }
+            });
         }
     });
 });
 
-// User info endpoint
-app.get('/api/user', authenticateToken, (req, res) => {
-    const sql = `SELECT id, username, firstname, lastname, email, mobilenumber FROM users WHERE username = '${req.user.username}'`;
-
-    connection.query(sql, (err, result) => {
-        if (err) {
-            console.log('Error fetching user info:', err);
-            res.status(500).send('Error fetching user info');
-        } else {
-            const user = result[0];
-
-            res.json(user);
-        }
-    });
-});
-
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if (token == null) return res.sendStatus(401);
-
-    jwt.verify(token, secretKey, (err, user) => {
-        if (err) return res.sendStatus(403);
-
-        req.user = user;
-        next();
-    });
-}
-
-app.listen(3000, () => {
-    console.log('Server listening on port 3000');
+PORT=4000
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
 });
