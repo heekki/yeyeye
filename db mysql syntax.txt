@@ -19,10 +19,27 @@ CREATE TABLE RECIPE (
     procedure TEXT NOT NULL
 );
 
-CREATE TABLE USER_RECIPE (
+CREATE TABLE USER_RECIPE_FAV (
     user_id INT,
     recipe_id INT,
     PRIMARY KEY (user_id, recipe_id),
+    FOREIGN KEY (user_id) REFERENCES USER(id),
+    FOREIGN KEY (recipe_id) REFERENCES RECIPE(id)
+);
+
+CREATE TABLE USER_RECIPE_UPL (
+    user_id INT,
+    recipe_id INT,
+    PRIMARY KEY (user_id, recipe_id),
+    FOREIGN KEY (user_id) REFERENCES USER(id),
+    FOREIGN KEY (recipe_id) REFERENCES RECIPE(id)
+);
+
+CREATE TABLE RECIPE_DISCUSS (
+    message_id INT PRIMARY KEY,
+    user_id INT,
+    recipe_id INT,
+    message TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES USER(id),
     FOREIGN KEY (recipe_id) REFERENCES RECIPE(id)
 );

@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./components/Home";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Subpage from "./components/Subpage";
-import Recipe from "./components/Recipe";
-import PrivateRoute from "./components/PrivateRoute";
 import { useState } from "react";
+
+import NavBar from "./components/NavBar";
+import PrivateRoute from "./components/PrivateRoute";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Subpage from "./pages/Subpage";
+import Recipe from "./pages/Recipe";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') !== null);
@@ -18,35 +20,10 @@ function App() {
     return (
         <Router>
         <div>
-            <nav>
-            <ul>
-                <li>
-                <a href="/">Home</a>
-                </li>
-                {isLoggedIn ? (
-                <li>
-                    <a href="/subpage">Subpage</a>
-                </li>
-                ) : null}
-                {isLoggedIn ? (
-                <li>
-                    <button onClick={handleLogout}>Logout</button>
-                </li>
-                ) : (
-                <>
-                    <li>
-                    <a href="/login">Login</a>
-                    </li>
-                    <li>
-                    <a href="/register">Register</a>
-                    </li>
-                </>
-                )}
-            </ul>
-            </nav>
+
+            <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
 
             <Switch>
-
             <Route path="/login">
                 <Login setIsLoggedIn={setIsLoggedIn} />
             </Route>
@@ -63,6 +40,7 @@ function App() {
                 <Recipe />
             </PrivateRoute>
             </Switch>
+
         </div>
         </Router>
     );

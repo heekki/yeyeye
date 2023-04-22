@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import SearchBar from './SearchBar';
+import SearchBar from '../components/SearchBar';
 
 const Home = () => {
     const [searchResults, setSearchResults] = useState([]);
