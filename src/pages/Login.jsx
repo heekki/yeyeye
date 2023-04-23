@@ -26,21 +26,34 @@ const Login = ({ setIsLoggedIn }) => {
 
     return (
         <>
+        <div className="container" style={{'margin-top':'5px'}}>
+
+        <div className="row mb-5">
+        <div className="col-sm-12">
         <h1>Login</h1>
+        </div>
+        </div>
+
+        <div className="row mb-5">
+        <div className="col-sm-12">
         <form onSubmit={handleLogin}>
-        <div>
+        <div className="form-group">
             <label htmlFor="username">Username:</label>
-            <input type="text" id="username" name="username" required />
+            <input type="text" id="username" name="username" className="form-control" required />
         </div>
-        <div>
+        <div className="form-group">
             <label htmlFor="password">Password:</label>
-            <input type="password" id="password" name="password" required />
+            <input type="password" id="password" name="password" className="form-control" required />
         </div>
         <div>
-        <button type="submit">Login</button>
+        <button type="submit" className="btn btn-primary pull-right">Login</button>
         {loginError && <p>{loginError}</p>}
         </div>
         </form>
+        </div>
+        </div>
+
+        </div>
         </>
     );
 };

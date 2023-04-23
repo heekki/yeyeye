@@ -18,9 +18,11 @@ function SearchBar(props) {
     };
 
     return (
-        <form onSubmit={handleSearch}>
-            <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search for recipes"/>
-            <button type="submit">Search</button>
+        <form onSubmit={handleSearch} className="input-group mb-3">
+            <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search for recipes" className="form-control" />
+            <div className="input-group-append">
+            <button type="submit" className="btn btn-primary">Search</button>
+            </div>
         </form>
     );
 }

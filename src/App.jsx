@@ -1,13 +1,15 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useState } from "react";
 
-import NavBar from "./components/NavBar";
-import PrivateRoute from "./components/PrivateRoute";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Subpage from "./pages/Subpage";
-import Recipe from "./pages/Recipe";
+import NavBar from "./components/NavBar.jsx";
+import Footer from "./components/Footer.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
+
+import Home from "./pages/Home.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
+import Subpage from "./pages/Subpage.jsx";
+import Recipe from "./pages/Recipe.jsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') !== null);
@@ -40,6 +42,8 @@ function App() {
                 <Recipe />
             </PrivateRoute>
             </Switch>
+
+            <Footer />
 
         </div>
         </Router>

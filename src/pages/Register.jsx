@@ -26,37 +26,50 @@ const Register = ({ setIsLoggedIn }) => {
 
     return (
         <>
+        <div className="container" style={{'margin-top':'5px'}}>
+
+        <div class="row mb-5">
+        <div class="col-sm-12">
         <h1>Register</h1>
+        </div>
+        </div>
+
+        <div class="row mb-5">
+        <div class="col-sm-12">
         <form onSubmit={handleRegister}>
-        <div>
+        <div class="form-group">
             <label htmlFor="username">Username:</label>
-            <input type="text" id="username" name="username" required />
+            <input type="text" id="username" name="username" class="form-control" required />
         </div>
-        <div>
+        <div class="form-group">
             <label htmlFor="firstname">First Name:</label>
-            <input type="text" id="firstname" name="firstname" required />
+            <input type="text" id="firstname" name="firstname" class="form-control" required />
         </div>
-        <div>
+        <div class="form-group">
             <label htmlFor="lastname">Last Name:</label>
-            <input type="text" id="lastname" name="lastname" required />
+            <input type="text" id="lastname" name="lastname" class="form-control" required />
         </div>
-        <div>
+        <div class="form-group">
             <label htmlFor="email">Email:</label>
-            <input type="email" id="email" name="email" required />
+            <input type="email" id="email" name="email" class="form-control" required />
         </div>
-        <div>
+        <div class="form-group">
             <label htmlFor="mobilenumber">Mobile Number:</label>
-            <input type="tel" id="mobilenumber" name="mobilenumber" required />
+            <input type="tel" id="mobilenumber" name="mobilenumber" class="form-control" required />
         </div>
-        <div>
+        <div class="form-group">
             <label htmlFor="password">Password:</label>
-            <input type="password" id="password" name="password" required />
+            <input type="password" id="password" name="password" class="form-control" required />
         </div>
-        <div>
-            <button type="submit">Register</button>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary pull-right">Register</button>
             {registerError && <p>{registerError}</p>}
         </div>
         </form>
+        </div>
+        </div>
+
+        </div>
         </>
     );
 };

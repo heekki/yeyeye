@@ -7,11 +7,17 @@ const Home = () => {
 
     return (
         <>
-        <div>
-            <h1>Home</h1>
-            <p>Welcome to the Home page!</p>
+        <div className="container" style={{'margin-top':'5px'}}>
+
+        <div className="row mb-5">
+        <div className="col-sm-12">
+            <h1 className="pb-2 mt-4 mb-2 border-bottom">Home</h1>
+            <p className="lead">Welcome to the Home page.</p>
         </div>
-        <div>
+        </div>
+
+        <div className="row mb-5">
+        <div className="col-sm-12">
             <SearchBar setSearchResults={setSearchResults} />
                 <div className="recipe-list">
                 {searchResults &&
@@ -25,6 +31,9 @@ const Home = () => {
                     ))
                 }
             </div>
+        </div>
+        </div>
+
         </div>
         </>
     );
