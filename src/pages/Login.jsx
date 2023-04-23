@@ -1,10 +1,7 @@
-import { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { login } from '../api';
 
 const Login = ({ setIsLoggedIn }) => {
-    const [loginError, setLoginError] = useState('');
-
     const history = useHistory();
     const location = useLocation();
 
@@ -13,20 +10,19 @@ const Login = ({ setIsLoggedIn }) => {
         const { username, password } = e.target.elements;
         login(username.value, password.value)
         .then((response) => {
-            setLoginError(null);
             setIsLoggedIn(true);
             localStorage.setItem('token', response.data.token);
             const { from } = location.state || { from: { pathname: '/' } };
             history.replace(from);
         })
         .catch((error) => {
-            setLoginError(error.response.data.message);
+            alert(error);
         });
     };
 
     return (
         <>
-        <div className="container" style={{'margin-top':'5px'}}>
+        <div className="container" style={{'marginTop':'2rem'}}>
 
         <div className="row mb-5">
         <div className="col-sm-12">
@@ -45,9 +41,8 @@ const Login = ({ setIsLoggedIn }) => {
             <label htmlFor="password">Password:</label>
             <input type="password" id="password" name="password" className="form-control" required />
         </div>
-        <div>
-        <button type="submit" className="btn btn-primary pull-right">Login</button>
-        {loginError && <p>{loginError}</p>}
+        <div className="text-right">
+            <button type="submit" className="btn btn-primary">Login</button>
         </div>
         </form>
         </div>

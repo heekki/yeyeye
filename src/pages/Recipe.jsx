@@ -34,19 +34,41 @@ function Recipe() {
     }
 
     return (
-        <div className="recipe">
-            <h2>{recipe.strMeal}</h2>
-            <img src={recipe.strMealThumb} alt={recipe.strMeal} />
-            <h3>Ingredients:</h3>
+        <>
+        <div className="container" style={{'marginTop':'2rem'}}>
+
+        <div className="row mb-5">
+
+        <div className="col-sm-4">
+        <div className="fakeimg2 img-hover">
+            <a href={recipe.strMealThumb} data-toggle="lightbox" data-gallery="gallery">
+                <img src={recipe.strMealThumb} alt={recipe.strMeal} className="shadow-lg img-thumbnail" />
+            </a>
+        </div>
+        </div>
+
+        <div className="col-sm-8">
+            <h1>{recipe.strMeal}</h1>
+            <h4>Ingredients:</h4>
             <ul>
                 {ingredients.map((ingredient) => (
                     <li key={ingredient}>{ingredient}</li>
                 ))}
             </ul>
-            <h3>Instructions:</h3>
-            <p>{recipe.strInstructions}</p>
-            <Link to="/">Back to Search</Link>
+            <h4>Instructions:</h4>
+            <div style={{'white-space':'pre-line'}}>
+            {recipe.strInstructions}
+            </div>
         </div>
+
+        </div>
+
+        <div className="row mb-5">
+        <Link to="/">Back to Search</Link>
+        </div>
+
+        </div>
+        </>
     );
 }
 

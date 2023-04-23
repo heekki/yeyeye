@@ -7,7 +7,7 @@ const Home = () => {
 
     return (
         <>
-        <div className="container" style={{'margin-top':'5px'}}>
+        <div className="container" style={{'marginTop':'1.5rem'}}>
 
         <div className="row mb-5">
         <div className="col-sm-12">
@@ -16,22 +16,21 @@ const Home = () => {
         </div>
         </div>
 
-        <div className="row mb-5">
-        <div className="col-sm-12">
-            <SearchBar setSearchResults={setSearchResults} />
-                <div className="recipe-list">
-                {searchResults &&
-                    searchResults.map((meal) => (
-                        <div key={meal.idMeal}>
-                            <Link to={`/recipe/${meal.idMeal}`}>
-                                <img src={meal.strMealThumb} alt={meal.strMeal} />
-                                <h3>{meal.strMeal}</h3>
-                            </Link>
-                        </div>
-                    ))
-                }
-            </div>
-        </div>
+        <SearchBar setSearchResults={setSearchResults} />
+        <div className="row my-5">
+            {searchResults && searchResults.map((meal) => (
+                <div className="col-sm-3">
+                <Link to={`/recipe/${meal.idMeal}`}>
+                <h4 style={{'text-align':'center'}}>{meal.strMeal}</h4>
+                <div key={meal.idMeal} className="fakeimg">
+                    <img src={meal.strMealThumb} alt={meal.strMeal} className="shadow" />
+                    <div class="overlay">
+                        <div class="text"></div>
+                    </div>
+                </div>
+                </Link>
+                </div>
+            ))}
         </div>
 
         </div>

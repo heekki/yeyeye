@@ -1,7 +1,7 @@
 const Subpage = () => {
     return (
         <>
-        <div className="container" style={{'margin-top':'5px'}}>
+        <div className="container" style={{'marginTop':'2rem'}}>
 
         <div className="row mb-5">
         <div className="col-sm-12">
