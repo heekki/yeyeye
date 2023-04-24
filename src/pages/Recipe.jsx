@@ -1,20 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { fetchRecipe } from '../api';
 
 function Recipe() {
     const [recipe, setRecipe] = useState(null);
     const { id } = useParams();
 
     useEffect(() => {
-        const fetchRecipe = async () => {
-            const response = await fetch(
-                `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
-            );
-            const data = await response.json();
-            setRecipe(data.meals[0]);
-        };
-
-        fetchRecipe();
+        fetchRecipe(id, setRecipe);
     }, [id]);
 
     if (!recipe) {
@@ -49,14 +42,16 @@ function Recipe() {
 
         <div className="col-sm-8">
             <h1>{recipe.strMeal}</h1>
+            <hr />
             <h4>Ingredients:</h4>
             <ul>
                 {ingredients.map((ingredient) => (
                     <li key={ingredient}>{ingredient}</li>
                 ))}
             </ul>
+            <hr />
             <h4>Instructions:</h4>
-            <div style={{'white-space':'pre-line'}}>
+            <div style={{'whiteSpace':'pre-line'}}>
             {recipe.strInstructions}
             </div>
         </div>

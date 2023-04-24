@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
-
+import { searchRecipe } from '../api';
 function SearchBar(props) {
     const [searchTerm, setSearchTerm] = useState('');
 
-    const handleSearch = (event) => {
-        event.preventDefault();
-        fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`)
-            .then(response => response.json())
-            .then(data => {
-                props.setSearchResults(data.meals);
-            })
-            .catch(error => console.error(error));
+    const handleSearch = (e) => {
+        e.preventDefault();
+        searchRecipe(searchTerm, props.setSearchResults);
     };
 
-    const handleInputChange = (event) => {
-        setSearchTerm(event.target.value);
+    const handleInputChange = (e) => {
+        setSearchTerm(e.target.value);
     };
 
     return (

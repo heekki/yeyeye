@@ -9,19 +9,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: '',
     database: 'food_db',
     port: 3306,
-});
-
-db.connect((err) => {
-    if (err) {
-        throw err;
-    }
-    console.log('Connected to database');
+    connectionLimit: 10,
 });
 
 app.post('/api/register', (req, res) => {
@@ -30,7 +24,7 @@ app.post('/api/register', (req, res) => {
         if (err) {
             res.status(500).send('Error hashing password');
         } else {
-            const sql = 'INSERT INTO users (username, firstname, lastname, email, mobilenumber, password) VALUES (?, ?, ?, ?, ?, ?)';
+            const sql = 'INSERT INTO USERS (username, firstname, lastname, email, mobilenumber, password) VALUES (?, ?, ?, ?, ?, ?)';
             db.query(sql, [username, firstname, lastname, email, mobilenumber, hash], (err, result) => {
                 if (err) {
                     console.log(err);
@@ -45,7 +39,7 @@ app.post('/api/register', (req, res) => {
 
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
-    const sql = 'SELECT * FROM users WHERE username = ?';
+    const sql = 'SELECT * FROM USERS WHERE username = ?';
     db.query(sql, [username], (err, result) => {
         if (err) {
             console.log(err);
