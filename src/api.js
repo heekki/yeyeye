@@ -12,6 +12,10 @@ export const register = (username, firstname, lastname, email, mobilenumber, pas
 
 export const login = (username, password) => api.post('/login', { username, password });
 
+export const getUserInfo = (id, setFormData) => api.get(`/users/${id}`);
+
+export const updateUserInfo = (id, formData) => api.put(`/users/${id}`, formData);
+
 export const searchRecipe = (searchTerm, setSearchResults) => {
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`)
         .then(response => response.json())
