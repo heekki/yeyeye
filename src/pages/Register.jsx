@@ -1,19 +1,13 @@
-import { useHistory, useLocation } from 'react-router-dom';
 import { register } from '../api';
 
-const Register = ({ setIsLoggedIn }) => {
-    const history = useHistory();
-    const location = useLocation();
-
+const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         const { username, firstname, lastname, email, mobilenumber, password } = e.target.elements;
         register(username.value, firstname.value, lastname.value, email.value, mobilenumber.value, password.value)
         .then((response) => {
-            setIsLoggedIn(true);
-            localStorage.setItem('token', response.data.token);
-            const { from } = location.state || { from: { pathname: '/' } };
-            history.replace(from);
+            alert(`User ${username.value} has been registered successfully. You may now log in.`);
+            window.location.replace('/');
         })
         .catch((error) => {
             alert(error);

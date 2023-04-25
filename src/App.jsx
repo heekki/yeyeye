@@ -17,6 +17,8 @@ function App() {
     const handleLogout = () => {
         setIsLoggedIn(false);
         localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        window.location.replace('/');
     };
 
     return (
@@ -26,11 +28,11 @@ function App() {
             <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
 
             <Switch>
+            <Route path="/register">
+                <Register />
+            </Route>
             <Route path="/login">
                 <Login setIsLoggedIn={setIsLoggedIn} />
-            </Route>
-            <Route path="/register">
-                <Register setIsLoggedIn={setIsLoggedIn} />
             </Route>
             <PrivateRoute exact path="/" isLoggedIn={isLoggedIn}>
                 <Home />

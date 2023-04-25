@@ -1,7 +1,7 @@
 const Footer = () => {
     return (
-        <div className="jumbotron text-center mt-5 footer gradient-2">
-            <p>Footer</p>
+        <div className="footer-copyright text-center py-3 gradient-3 fixed-bottom">
+            Footer
         </div>
     );
 };

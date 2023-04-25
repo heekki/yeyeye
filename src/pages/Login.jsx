@@ -1,19 +1,15 @@
-import { useHistory, useLocation } from 'react-router-dom';
 import { login } from '../api';
 
 const Login = ({ setIsLoggedIn }) => {
-    const history = useHistory();
-    const location = useLocation();
-
     const handleLogin = async (e) => {
         e.preventDefault();
         const { username, password } = e.target.elements;
         login(username.value, password.value)
-        .then((response) => {
+        .then((res) => {
             setIsLoggedIn(true);
-            localStorage.setItem('token', response.data.token);
-            const { from } = location.state || { from: { pathname: '/' } };
-            history.replace(from);
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('userId', res.data.id);
+            window.location.replace('/');
         })
         .catch((error) => {
             alert(error);

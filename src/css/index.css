@@ -5,6 +5,8 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    margin-bottom: 0;
+    padding-bottom: 120px;
 }
 
 code {
@@ -34,10 +36,6 @@ small {
 
 .dropdown:hover > .dropdown-menu {
   display: block;
-}
-
-.footer {
-    margin-bottom: 0;
 }
 
 .gradient-1 {
