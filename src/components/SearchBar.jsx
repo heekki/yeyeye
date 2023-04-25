@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { searchRecipe } from '../api';
+
 function SearchBar(props) {
     const [searchTerm, setSearchTerm] = useState('');
 

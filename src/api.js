@@ -20,11 +20,14 @@ export const getUserInfo = (id) => api.get(`/users/${id}`);
 
 export const updateUserInfo = (id, formData) => api.put(`/users/${id}`, formData);
 
-export const saveRecipe = (name, ingredients, instruction) => api.post('/recipes', { name, ingredients, instruction });
+export const saveRecipe = (name, ingredients, instruction, type, typeId) =>
+    api.post('/recipes', { name, ingredients, instruction, type, typeId });
 
 export const updateRecipe = (id, name, ingredients, instruction) => api.put(`/recipes/${id}`, { name, ingredients, instruction });
 
 export const deleteRecipe = (id) => api.delete(`/recipes/${id}`)
+
+export const getFavorites = (userId) => api.get(`/users/${userId}/favorites`);
 
 export const addFavorite = (userId, recipeId) => api.post(`/users/${userId}/favorites`);
 

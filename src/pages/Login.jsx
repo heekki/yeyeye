@@ -18,16 +18,15 @@ const Login = ({ setIsLoggedIn }) => {
 
     return (
         <>
-        <div className="container" style={{'marginTop':'2rem'}}>
 
         <div className="row mb-5">
-        <div className="col-sm-12">
+        <div className="col-sm-12 primarycolor">
         <h1>Login</h1>
         </div>
         </div>
 
         <div className="row mb-5">
-        <div className="col-sm-12">
+        <div className="col-sm-12 primarycolor">
         <form onSubmit={handleLogin}>
         <div className="form-group">
             <label htmlFor="username">Username:</label>
@@ -39,12 +38,13 @@ const Login = ({ setIsLoggedIn }) => {
         </div>
         <div className="text-right">
             <button type="submit" className="btn btn-primary">Login</button>
+            <br /><br />
+            <a href="/register" className="primarycolor" style={{'textDecoration':'underline'}}>Don't have an account? Register</a>
         </div>
         </form>
         </div>
         </div>
 
-        </div>
         </>
     );
 };

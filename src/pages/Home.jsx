@@ -2,22 +2,31 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 
-const Home = () => {
+const Home = ({ user }) => {
     const [searchResults, setSearchResults] = useState([]);
+
+    const goAdvancedSearch = () => {
+        window.location.replace('/search');
+    };
+
+    const goRandomRecipe = () => {
+        window.location.replace('/random');
+    };
+
+    console.log(user);
 
     return (
         <>
-        <div className="container" style={{'marginTop':'1.5rem'}}>
 
         <div className="row mb-5">
-        <div className="col-sm-12">
+        <div className="col-sm-12 primarycolor">
             <h1 className="pb-2 mt-4 mb-2 border-bottom">Home</h1>
-            <p className="lead">Welcome to the Home page.</p>
+            <p className="lead">Welcome, {user.firstname}. ({user.username})</p>
         </div>
         </div>
 
         <SearchBar setSearchResults={setSearchResults} />
-        <div className="row my-5">
+        <div className="row my-5 primarycolor">
             {searchResults && searchResults.map((meal) => (
                 <div className="col-sm-3">
                 <Link to={`/recipe/${meal.idMeal}`}>
@@ -33,7 +42,13 @@ const Home = () => {
             ))}
         </div>
 
+        <div className="row mb-5">
+        <div className="col-sm-12">
+            <button type="button" className="btn btn-primary btn-block" onClick={goAdvancedSearch}>Advanced Search</button>
+            <button type="button" className="btn btn-primary btn-block" onClick={goRandomRecipe}>Random Recipe</button>
         </div>
+        </div>
+
         </>
     );
 };

@@ -193,6 +193,19 @@ app.delete('/api/recipes/:id', (req, res) => {
     });
 });
 
+// Get all recipes
+app.get('/api/users/:userId/favorites', (req, res) => {
+    const { userId } = req.params;
+    db.query('SELECT * FROM USER_RECIPE_FAV WHERE user_id = ?', [userId], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Error retrieving recipe favorites');
+        } else {
+            res.status(200).json(result);
+        }
+    });
+});
+
 // Add a new favorite recipe
 app.post('/api/users/:userId/favorites', (req, res) => {
     const { userId, recipeId } = req.params;

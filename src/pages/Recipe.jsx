@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { fetchRecipe } from '../api';
 
 function Recipe() {
     const [recipe, setRecipe] = useState(null);
     const { id } = useParams();
+
+    const goBack = () => {
+        window.location.replace('/');
+    };
 
     useEffect(() => {
         fetchRecipe(id, setRecipe);
@@ -28,8 +32,6 @@ function Recipe() {
 
     return (
         <>
-        <div className="container" style={{'marginTop':'2rem'}}>
-
         <div className="row mb-5">
 
         <div className="col-sm-4">
@@ -40,7 +42,7 @@ function Recipe() {
         </div>
         </div>
 
-        <div className="col-sm-8">
+        <div className="col-sm-8 primarycolor">
             <h1>{recipe.strMeal}</h1>
             <hr />
             <h4>Ingredients:</h4>
@@ -54,12 +56,8 @@ function Recipe() {
             <div style={{'whiteSpace':'pre-line'}}>
             {recipe.strInstructions}
             </div>
-        </div>
-
-        </div>
-
-        <div className="row mb-5">
-        <Link to="/">Back to Search</Link>
+            <br />
+            <button className="btn btn-secondary" onClick={goBack}>Back to Home</button>
         </div>
 
         </div>
