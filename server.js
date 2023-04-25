@@ -105,28 +105,28 @@ app.put('/api/users/:id', (req, res) => {
 
 // Get all recipes
 app.get('/api/recipes/user', (req, res) => {
-	db.query('SELECT * FROM RECIPES', (err, result) => {
-		if (err) {
-			console.log(err);
-			res.status(500).send('Error retrieving recipes');
-		} else {
-			res.status(200).json(result);
-		}
-	});
+    db.query('SELECT * FROM RECIPES', (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Error retrieving recipes');
+        } else {
+            res.status(200).json(result);
+        }
+    });
 });
 
 // Get a specific recipe by ID
 app.get('/api/recipes/user/:id', (req, res) => {
     const { id } = req.params;
-	db.query('SELECT * FROM RECIPES WHERE id = ?', [id], (err, result) => {
-		if (err) {
-			console.log(err);
-			res.status(500).send(`Error retrieving recipe ${id}`);
-		} else if (result.length === 0) {
-			res.status(404).send(`Recipe ${id} not found`);
-		} else {
-			res.status(200).json(result[0]);
-		}
+    db.query('SELECT * FROM RECIPES WHERE id = ?', [id], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send(`Error retrieving recipe ${id}`);
+        } else if (result.length === 0) {
+            res.status(404).send(`Recipe ${id} not found`);
+        } else {
+            res.status(200).json(result[0]);
+        }
     });
 };
 
