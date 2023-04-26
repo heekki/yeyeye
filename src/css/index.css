@@ -12,6 +12,24 @@
     /*background-color: #F38181;*/
 }
 
+.btn-outline-light {
+    color: white;
+    background-color: #575B46;
+    border-color: white;
+    border-radius: 8px;
+}
+
+.btn-outline-dark {
+    color: #575B46;
+    background-color: white;
+    border-color: #575B46;
+    border-radius: 8px;
+}
+
+.btn-danger {
+    border-radius: 8px;
+}
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

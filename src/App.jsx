@@ -22,15 +22,13 @@ function App() {
         email: '',
         mobilenumber: ''
     });
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
-        const userId = localStorage.getItem('userId');
         if (userId) {
-            getUserInfo(userId)
-                .then(res => {setUser(res.data);})
-                .catch(err => {console.log(err)});
+            getUserInfo(userId, setUser);
         }
-    }, []);
+    }, [userId]);
 
     const handleLogout = () => {
         setIsLoggedIn(false);
@@ -65,7 +63,7 @@ function App() {
             <UserProfile handleLogout={handleLogout} user={user} />
         </PrivateRoute>
         <PrivateRoute path="/recipe/:id" isLoggedIn={isLoggedIn}>
-            <Recipe />
+            <Recipe userId={userId} />
         </PrivateRoute>
         </Switch>
 

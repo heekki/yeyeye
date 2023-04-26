@@ -16,7 +16,7 @@ const UserProfile = ({ handleLogout, user }) => {
             <li>Mobile Number: {user.mobilenumber}</li>
             </ul>
             <br /><br />
-            <button type="button" className="btn btn-primary btn-block" onClick={goEdit}>Edit Profile</button>
+            <button type="button" className="btn btn-outline-light btn-block" onClick={goEdit}>Edit Profile</button>
             <button type="button" className="btn btn-danger btn-block" onClick={handleLogout}>Log Out</button>
         </div>
         </div>

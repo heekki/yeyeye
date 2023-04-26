@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 
 const Home = ({ user }) => {
@@ -29,23 +28,23 @@ const Home = ({ user }) => {
         <div className="row my-5 primarycolor">
             {searchResults && searchResults.map((meal) => (
                 <div className="col-sm-3">
-                <Link to={`/recipe/${meal.idMeal}`}>
-                <h4 style={{'text-align':'center'}}>{meal.strMeal}</h4>
+                <a href={`/recipe/${meal.idMeal}`}>
+                <h4 className="primarycolor" style={{'text-align':'center'}}>{meal.strMeal}</h4>
                 <div key={meal.idMeal} className="fakeimg">
                     <img src={meal.strMealThumb} alt={meal.strMeal} className="shadow" />
-                    <div class="overlay">
-                        <div class="text"></div>
+                    <div className="overlay">
+                        <div className="text"></div>
                     </div>
                 </div>
-                </Link>
+                </a>
                 </div>
             ))}
         </div>
 
         <div className="row mb-5">
         <div className="col-sm-12">
-            <button type="button" className="btn btn-primary btn-block" onClick={goAdvancedSearch}>Advanced Search</button>
-            <button type="button" className="btn btn-primary btn-block" onClick={goRandomRecipe}>Random Recipe</button>
+            <button type="button" className="btn btn-outline-dark btn-block" onClick={goAdvancedSearch}>Advanced Search</button>
+            <button type="button" className="btn btn-outline-dark btn-block" onClick={goRandomRecipe}>Random Recipe</button>
         </div>
         </div>
 

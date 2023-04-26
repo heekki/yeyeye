@@ -16,20 +16,36 @@ export const register = (username, firstname, lastname, email, mobilenumber, pas
 
 export const login = (username, password) => api.post('/login', { username, password });
 
-export const getUserInfo = (id) => api.get(`/users/${id}`);
+export const getUserInfo = (id, setUser) => {
+    api.get(`/users/${id}`)
+        .then(res => {setUser(res.data);})
+        .catch(err => {console.log(err)});
+};
 
 export const updateUserInfo = (id, formData) => api.put(`/users/${id}`, formData);
 
-export const saveRecipe = (name, ingredients, instruction, type, typeId) =>
+export const addRecipe = (name, ingredients, instruction, type, typeId) =>
     api.post('/recipes', { name, ingredients, instruction, type, typeId });
 
 export const updateRecipe = (id, name, ingredients, instruction) => api.put(`/recipes/${id}`, { name, ingredients, instruction });
 
 export const deleteRecipe = (id) => api.delete(`/recipes/${id}`)
 
-export const getFavorites = (userId) => api.get(`/users/${userId}/favorites`);
+export const getAllFavorites = (userId) => api.get(`/users/${userId}/favorites`);
 
-export const addFavorite = (userId, recipeId) => api.post(`/users/${userId}/favorites`);
+export const fetchRecipeByType = (type, typeId, setRecipeByType) => {
+    api.get(`/recipes/${type}/${typeId}`)
+        .then(res => {setRecipeByType(res.data);})
+        .catch(err => {console.log(err)});
+};
+
+export const fetchFavorite = (userId, recipeId, setFavorite) => {
+    api.get(`/users/${userId}/favorites/${recipeId}`)
+        .then(res => {setFavorite(res.data ? true : false);})
+        .catch(err => {console.log(err)});
+};
+
+export const addFavorite = (userId, recipeId) => api.post(`/users/${userId}/favorites`, { recipeId });
 
 export const deleteFavorite = (userId, recipeId) => api.delete(`/users/${userId}/favorites/${recipeId}`);
 

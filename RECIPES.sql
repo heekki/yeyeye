@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 24, 2023 at 07:37 AM
+-- Generation Time: Apr 26, 2023 at 02:28 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `RECIPES` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `ingredients` text NOT NULL,
-  `instruction` text NOT NULL,
-  `type` varchar(20) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `ingredients` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `instruction` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci NOT NULL,
   `type_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
@@ -44,7 +44,8 @@ CREATE TABLE `RECIPES` (
 -- Indexes for table `RECIPES`
 --
 ALTER TABLE `RECIPES`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `type_id` (`type_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
