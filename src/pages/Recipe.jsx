@@ -23,7 +23,13 @@ function Recipe({ userId }) {
     }, [userId, id, recipeByType]);
 
     if (!recipe) {
-        return <div>Loading...</div>;
+        return (
+            <div className="row mb-5">
+            <div className="col-sm-12 primarycolor">
+            Loading...
+            </div>
+            </div>
+        );
     }
 
     const ingredientsDisplay = [];
@@ -38,8 +44,12 @@ function Recipe({ userId }) {
         }
     }
 
+    const goYoutube = () => {
+        window.location.replace(recipe.strYoutube);
+    }
+
     const handleFavoriteClick = async () => {
-        await addRecipe(recipe.strMeal, ingredientsDisplay.join(';;'), recipe.strInstructions, recipeType, id);
+        await addRecipe(recipe.strMeal, ingredientsDisplay.join(';;'), recipe.strInstructions, recipeType, id, recipe.strMealThumb);
         await fetchRecipeByType(recipeType, id, setRecipeByType);
         try {
             if (!favorite) {
@@ -58,8 +68,8 @@ function Recipe({ userId }) {
         <>
         <div className="row mb-5">
 
-        <div className="col-sm-4">
-        <div className="fakeimg2 img-hover">
+        <div className="col-sm-3">
+        <div className="fakeimga img-hover">
             <a href={recipe.strMealThumb} data-toggle="lightbox" data-gallery="gallery">
                 <img src={recipe.strMealThumb} alt={recipe.strMeal} className="shadow-lg img-thumbnail" />
             </a>
@@ -67,7 +77,7 @@ function Recipe({ userId }) {
         </div>
         </div>
 
-        <div className="col-sm-8 primarycolor">
+        <div className="col-sm-9 primarycolor">
             <h1>{recipe.strMeal}</h1>
             <hr />
             <h4>Ingredients:</h4>
@@ -81,8 +91,17 @@ function Recipe({ userId }) {
             <div style={{'whiteSpace':'pre-line'}}>
             {recipe.strInstructions}
             </div>
+            {recipe.strYoutube && (
+                <>
+                <br />
+                <button type="button" className="btn btn-outline-light btn-block"
+                onClick={goYoutube}>YouTube Tutorial</button>
+                <hr />
+                </>
+                )
+            }
             <br />
-            <button className="btn btn-secondary" onClick={goBack}>Back to Home</button>
+            <button className="btn btn-outline-light" onClick={goBack}>Back to Home</button>
         </div>
 
         </div>

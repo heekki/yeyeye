@@ -51,7 +51,7 @@ const Register = () => {
             <input type="password" id="password" name="password" className="form-control" required />
         </div>
         <div className="text-right">
-            <button type="submit" className="btn btn-primary">Register</button>
+            <button type="submit" className="btn btn-outline-light">Register</button>
             <br /><br />
             <a href="/login" className="primarycolor" style={{'textDecoration':'underline'}}>Already have an account? Login</a>
         </div>

@@ -37,7 +37,7 @@ const Login = ({ setIsLoggedIn }) => {
             <input type="password" id="password" name="password" className="form-control" required />
         </div>
         <div className="text-right">
-            <button type="submit" className="btn btn-outline-dark">Login</button>
+            <button type="submit" className="btn btn-outline-light">Login</button>
             <br /><br />
             <a href="/register" className="primarycolor" style={{'textDecoration':'underline'}}>Don't have an account? Register</a>
         </div>

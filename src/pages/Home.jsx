@@ -12,8 +12,6 @@ const Home = ({ user }) => {
         window.location.replace('/random');
     };
 
-    console.log(user);
-
     return (
         <>
 
@@ -43,8 +41,8 @@ const Home = ({ user }) => {
 
         <div className="row mb-5">
         <div className="col-sm-12">
-            <button type="button" className="btn btn-outline-dark btn-block" onClick={goAdvancedSearch}>Advanced Search</button>
-            <button type="button" className="btn btn-outline-dark btn-block" onClick={goRandomRecipe}>Random Recipe</button>
+            <button type="button" className="btn btn-outline-light btn-block" onClick={goAdvancedSearch}>Advanced Search</button>
+            <button type="button" className="btn btn-outline-light btn-block" onClick={goRandomRecipe}>Random Recipe</button>
         </div>
         </div>
 

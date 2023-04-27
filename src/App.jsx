@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { getUserInfo } from "./api";
 
@@ -12,6 +12,7 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
 import Recipe from "./pages/Recipe.jsx";
+import Favorites from "./pages/Favorites.jsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') !== null);
@@ -37,11 +38,6 @@ function App() {
         window.location.replace('/');
     };
 
-    useLayoutEffect(() => {
-        document.body.style.backgroundColor = "#8F976F";
-        //document.body.style.backgroundColor = "#FEFAEC";
-    });
-
     return (
         <Router>
 
@@ -59,11 +55,14 @@ function App() {
         <PrivateRoute exact path="/" isLoggedIn={isLoggedIn}>
             <Home user={user} />
         </PrivateRoute>
-        <PrivateRoute path="/subpage" isLoggedIn={isLoggedIn}>
+        <PrivateRoute path="/profile" isLoggedIn={isLoggedIn}>
             <UserProfile handleLogout={handleLogout} user={user} />
         </PrivateRoute>
         <PrivateRoute path="/recipe/:id" isLoggedIn={isLoggedIn}>
             <Recipe userId={userId} />
+        </PrivateRoute>
+        <PrivateRoute path="/favorites" isLoggedIn={isLoggedIn}>
+            <Favorites user={user} userId={userId} />
         </PrivateRoute>
         </Switch>
 

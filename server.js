@@ -105,6 +105,7 @@ app.put('/api/users/:id', (req, res) => {
                 console.log(err);
                 res.status(500).send(`Error retrieving user ${id}`);
             } else {
+                console.error('Update user info success');
                 res.status(200).send(`User ${id} updated successfully`);
             }
         }
@@ -126,13 +127,16 @@ app.get('/api/recipes', (req, res) => {
 // Get a specific recipe by ID
 app.get('/api/recipes/:id', (req, res) => {
     const { id } = req.params;
+    console.error('Get recipe by ID');
     db.query('SELECT * FROM RECIPES WHERE id = ?', [id], (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).send(`Error retrieving recipe ${id}`);
         } else if (result.length === 0) {
+            console.error(`Recipe ${id} not found`);
             res.status(404).send(`Recipe ${id} not found`);
         } else {
+            console.error('Get recipe by ID success');
             res.status(200).json(result[0]);
         }
     });
@@ -146,6 +150,7 @@ app.put('/api/recipes/:id', (req, res) => {
         ingredients,
         instruction
     } = req.body;
+    console.error('Update an existing recipe');
     db.query(
         'UPDATE RECIPES SET name = ?, ingredients = ?, instruction = ? WHERE id = ?',
         [name, ingredients, instruction, id],
@@ -154,6 +159,7 @@ app.put('/api/recipes/:id', (req, res) => {
                 console.log(err);
                 res.status(500).send(`Error updating recipe ${id}`);
             } else if (result.affectedRows === 0) {
+                console.error(`Recipe ${id} not found`);
                 res.status(404).send(`Recipe ${id} not found`);
             } else {
                 console.log(`Recipe ${id} updated`);
@@ -166,11 +172,13 @@ app.put('/api/recipes/:id', (req, res) => {
 // Delete a recipe
 app.delete('/api/recipes/:id', (req, res) => {
     const { id } = req.params;
+    console.error('Delete an existing recipe');
     db.query('DELETE FROM RECIPES WHERE id = ?', [id], (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).send(`Error deleting recipe ${id}`);
         } else if (result.affectedRows === 0) {
+            console.error(`Recipe ${id} not found`);
             res.status(404).send(`Recipe ${id} not found`);
         } else {
             console.log(`Recipe ${id} deleted`);
@@ -186,11 +194,12 @@ app.post('/api/recipes', (req, res) => {
         ingredients,
         instruction,
         type,
-        typeId
+        typeId,
+        thumb
     } = req.body;
     db.query(
-    'INSERT IGNORE INTO RECIPES (name, ingredients, instruction, type, type_id) VALUES (?, ?, ?, ?, ?)',
-    [name, ingredients, instruction, type, typeId],
+    'INSERT IGNORE INTO RECIPES (name, ingredients, instruction, type, type_id, thumb) VALUES (?, ?, ?, ?, ?, ?)',
+    [name, ingredients, instruction, type, typeId, thumb],
     (err, result) => {
         if (err) {
             console.log(err);
@@ -205,11 +214,13 @@ app.post('/api/recipes', (req, res) => {
 // Get all favorite recipes of a user
 app.get('/api/users/:userId/favorites', (req, res) => {
     const { userId } = req.params;
+    console.error('Get all favorite recipes of a user');
     db.query('SELECT * FROM USER_RECIPE_FAV WHERE user_id = ?', [userId], (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).send('Error retrieving recipe favorites');
         } else {
+            console.error('Got favorites of user');
             res.status(200).json(result);
         }
     });

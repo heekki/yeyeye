@@ -1,35 +1,3 @@
-.primarycolor {
-    color: white;
-    /*color: black;*/
-}
-
-.primarycolor2 {
-    color: white;
-}
-
-.primarybbcolor {
-    background-color: #575B46;
-    /*background-color: #F38181;*/
-}
-
-.btn-outline-light {
-    color: white;
-    background-color: #575B46;
-    border-color: white;
-    border-radius: 8px;
-}
-
-.btn-outline-dark {
-    color: #575B46;
-    background-color: white;
-    border-color: #575B46;
-    border-radius: 8px;
-}
-
-.btn-danger {
-    border-radius: 8px;
-}
-
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -39,6 +7,46 @@ body {
     -moz-osx-font-smoothing: grayscale;
     margin-bottom: 0;
     padding-bottom: 120px;
+
+    --primary-color: white;
+    --primary-bbcolor: #575B46;
+    background-color: #8F976F;
+    /*--primary-color: black;
+    --primary-bbcolor: #F38181;
+    background-color: #FEFAEC;*/
+
+    --primary-colorr: white;
+    --border-radius: 8px;
+}
+
+.primarycolor {
+    color: var(--primary-color);
+}
+
+.primarycolor2 {
+    color: var(--primary-colorr);
+}
+
+.primarybbcolor {
+    background-color: var(--primary-bbcolor);
+}
+
+.btn-outline-light {
+    color: var(--primary-colorr);
+    background-color: var(--primary-bbcolor);
+    border-color: var(--primary-colorr);
+    border-radius: var(--border-radius);
+}
+
+.btn-outline-dark {
+    color: var(--primary-bbcolor);
+    background-color: var(--primary-colorr);
+    border-color: var(--primary-bbcolor);
+    border-radius: var(--border-radius);
+}
+
+.btn-danger {
+    border-radius: var(--border-radius);
 }
 
 code {
@@ -105,11 +113,8 @@ small {
 }
 
 .fakeimga {
-    height: 16em;
-}
-
-.fakeimga > img {
-    height: 16em;
+    margin: auto;
+    width: 16em;
 }
 
 .navbar {

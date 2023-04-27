@@ -24,10 +24,12 @@ export const getUserInfo = (id, setUser) => {
 
 export const updateUserInfo = (id, formData) => api.put(`/users/${id}`, formData);
 
-export const addRecipe = (name, ingredients, instruction, type, typeId) =>
-    api.post('/recipes', { name, ingredients, instruction, type, typeId });
+export const addRecipe = (name, ingredients, instruction, type, typeId, thumb) =>
+    api.post('/recipes', { name, ingredients, instruction, type, typeId, thumb });
 
 export const updateRecipe = (id, name, ingredients, instruction) => api.put(`/recipes/${id}`, { name, ingredients, instruction });
+
+export const getRecipe = (id) => api.get(`/recipes/${id}`);
 
 export const deleteRecipe = (id) => api.delete(`/recipes/${id}`)
 
