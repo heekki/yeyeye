@@ -47,6 +47,7 @@ body {
 
 .btn-danger {
     border-radius: var(--border-radius);
+    border-color: var(--primary-colorr);
 }
 
 code {

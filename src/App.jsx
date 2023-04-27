@@ -13,6 +13,7 @@ import Register from "./pages/Register.jsx";
 import UserProfile from "./pages/UserProfile.jsx";
 import Recipe from "./pages/Recipe.jsx";
 import Favorites from "./pages/Favorites.jsx";
+import EditProfile from "./pages/EditProfile.jsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') !== null);
@@ -43,7 +44,7 @@ function App() {
 
         <NavBar isLoggedIn={isLoggedIn} handleLogout={handleLogout} user={user} />
 
-        <div className="container-fluid" style={{'marginTop':'1.25rem'}}>
+        <div className="container" style={{'marginTop':'1.25rem'}}>
 
         <Switch>
         <Route path="/register">
@@ -63,6 +64,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute path="/favorites" isLoggedIn={isLoggedIn}>
             <Favorites user={user} userId={userId} />
+        </PrivateRoute>
+        <PrivateRoute path="/edit" isLoggedIn={isLoggedIn}>
+            <EditProfile user={user} userId={userId} />
         </PrivateRoute>
         </Switch>
 

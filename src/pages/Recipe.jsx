@@ -49,7 +49,7 @@ function Recipe({ userId }) {
     }
 
     const handleFavoriteClick = async () => {
-        await addRecipe(recipe.strMeal, ingredientsDisplay.join(';;'), recipe.strInstructions, recipeType, id, recipe.strMealThumb);
+        await addRecipe(recipe.strMeal, ingredientsDisplay.join('\n'), recipe.strInstructions, recipeType, id, recipe.strMealThumb);
         await fetchRecipeByType(recipeType, id, setRecipeByType);
         try {
             if (!favorite) {
