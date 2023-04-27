@@ -14,6 +14,7 @@ import UserProfile from "./pages/UserProfile.jsx";
 import Recipe from "./pages/Recipe.jsx";
 import Favorites from "./pages/Favorites.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
+import AdvancedSearch from "./pages/AdvancedSearch.jsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') !== null);
@@ -67,6 +68,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute path="/edit" isLoggedIn={isLoggedIn}>
             <EditProfile user={user} userId={userId} />
+        </PrivateRoute>
+        <PrivateRoute path="/search" isLoggedIn={isLoggedIn}>
+            <AdvancedSearch />
         </PrivateRoute>
         </Switch>
 

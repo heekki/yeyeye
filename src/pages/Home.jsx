@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import SearchBar from '../components/SearchBar';
+import { fetchRandom } from "../api";
 
 const Home = ({ user }) => {
     const [searchResults, setSearchResults] = useState([]);
 
     const goAdvancedSearch = () => {
         window.location.replace('/search');
-    };
-
-    const goRandomRecipe = () => {
-        window.location.replace('/random');
     };
 
     return (
@@ -27,7 +24,7 @@ const Home = ({ user }) => {
             {searchResults && searchResults.map((meal) => (
                 <div className="col-sm-3">
                 <a href={`/recipe/${meal.idMeal}`}>
-                <h4 className="primarycolor" style={{'text-align':'center'}}>{meal.strMeal}</h4>
+                <h5 className="primarycolor" style={{'textAlign':'center'}}>{meal.strMeal}</h5>
                 <div key={meal.idMeal} className="fakeimg">
                     <img src={meal.strMealThumb} alt={meal.strMeal} className="shadow" />
                     <div className="overlay">
@@ -42,7 +39,7 @@ const Home = ({ user }) => {
         <div className="row mb-5">
         <div className="col-sm-12">
             <button type="button" className="btn btn-outline-light btn-block" onClick={goAdvancedSearch}>Advanced Search</button>
-            <button type="button" className="btn btn-outline-light btn-block" onClick={goRandomRecipe}>Random Recipe</button>
+            <button type="button" className="btn btn-outline-light btn-block" onClick={fetchRandom}>Random Recipe</button>
         </div>
         </div>
 

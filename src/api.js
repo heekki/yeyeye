@@ -64,3 +64,36 @@ export const fetchRecipe = async (id, setRecipe) => {
     const data = await res.json();
     setRecipe(data.meals[0]);
 };
+
+export const fetchRandom = async () => {
+    const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
+    const data = await res.json();
+    window.location.replace(`/recipe/${data.meals[0].idMeal}`);
+};
+
+export const fetchAreas = async (setAreas) => {
+    const res = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?a=list');
+    const data = await res.json();
+    setAreas(data.meals);
+};
+
+export const fetchCategories = async (setCategories) => {
+    const res = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+    const data = await res.json();
+    setCategories(data.meals);
+};
+
+export const searchByArea = (area, setSearchResults) => {
+    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`)
+        .then(res => res.json())
+        .then(data => {setSearchResults(data.meals);})
+        .catch(error => console.error(error));
+};
+
+export const searchByCategory = (category, setSearchResults) => {
+    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
+        .then(res => res.json())
+        .then(data => {setSearchResults(data.meals);})
+        .catch(error => console.error(error));
+};
+
