@@ -31,7 +31,7 @@ const Favorites = ({ user, userId }) => {
             {recipes[0] ? recipes.map((meal) => (
                 <div className="col-sm-3">
                 <a href={`/recipe/${meal.type_id}`}>
-                <h4 className="primarycolor" style={{'text-align':'center'}}>{meal.name}</h4>
+                <h4 className="primarycolor" style={{'textAlign':'center'}}>{meal.name}</h4>
                 <div key={meal.type_id} className="fakeimg">
                     <img src={meal.thumb} alt={meal.name} className="shadow" />
                     <div className="overlay">
