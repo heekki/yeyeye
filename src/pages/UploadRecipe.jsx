@@ -1,13 +1,15 @@
 import { addRecipe } from '../api';
 
-const UploadRecipe = () => {
+const UploadRecipe = ({ user, userId }) => {
     const recipeType = "User-uploaded";
+
+    console.log(user.username);
+    console.log(userId);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { name, ingredients, instructions, thumb } = e.target.elements;
-        console.log(`${name.value} ${ingredients.value} ${instructions.value} ${thumb.value} `);
-        addRecipe(name.value, ingredients.value, instructions.value, recipeType, thumb.value, 0)
+        const { name, ingredients, instruction, thumb } = e.target.elements;
+        addRecipe(name.value, ingredients.value, instruction.value, recipeType, thumb.value, 0, userId, user.username)
         .then((response) => {
             console.log(response);
             alert(`Recipe "${name.value}" has been uploaded successfully.`);
@@ -35,15 +37,15 @@ const UploadRecipe = () => {
             <input type="text" id="name" name="name" className="form-control" required />
         </div>
         <div className="form-group">
-            <label htmlFor="firstname">Ingredients:</label>
+            <label htmlFor="ingredients">Ingredients:</label>
             <textarea id="ingredients" name="ingredients" className="form-control" required></textarea>
         </div>
         <div className="form-group">
-            <label htmlFor="instructions">Instructions:</label>
-            <textarea id="instructions" name="instructions" className="form-control" required></textarea>
+            <label htmlFor="instruction">Instructions:</label>
+            <textarea id="instruction" name="instruction" className="form-control" required></textarea>
         </div>
         <div className="form-group">
-            <label htmlFor="email">Thumbnail Image Link:</label>
+            <label htmlFor="thumb">Thumbnail Image Link:</label>
             <input type="text" id="thumb" name="thumb" className="form-control" required />
         </div>
         <div className="text-right">

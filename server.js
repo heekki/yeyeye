@@ -129,7 +129,7 @@ app.get('/api/recipes', (req, res) => {
 app.get('/api/recipes/type/:type', (req, res) => {
     const { type } = req.params;
     console.log('Get all recipes by type');
-    db.query('SELECT * FROM RECIPES WHERE type = \'User-uploaded\'', [type], (err, result) => {
+    db.query('SELECT * FROM RECIPES WHERE type = ?', [type], (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).send(`Error retrieving recipes with type ${type}`);
@@ -163,12 +163,13 @@ app.put('/api/recipes/:id', (req, res) => {
     const {
         name,
         ingredients,
-        instruction
+        instruction,
+        thumb
     } = req.body;
     console.error('Update an existing recipe');
     db.query(
-        'UPDATE RECIPES SET name = ?, ingredients = ?, instruction = ? WHERE id = ?',
-        [name, ingredients, instruction, id],
+        'UPDATE RECIPES SET name = ?, ingredients = ?, instruction = ?, thumb = ? WHERE id = ?',
+        [name, ingredients, instruction, thumb, id],
         (err, result) => {
             if (err) {
                 console.log(err);
@@ -210,11 +211,13 @@ app.post('/api/recipes', (req, res) => {
         instruction,
         type,
         thumb,
-        typeId
+        typeId,
+        userId,
+        username
     } = req.body;
     db.query(
-    'INSERT IGNORE INTO RECIPES (name, ingredients, instruction, type, thumb, type_id) VALUES (?, ?, ?, ?, ?, ?)',
-    [name, ingredients, instruction, type, thumb, typeId],
+    'INSERT IGNORE INTO RECIPES (name, ingredients, instruction, type, thumb, type_id, user_id, username) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [name, ingredients, instruction, type, thumb, typeId, userId, username],
     (err, result) => {
         if (err) {
             console.log(err);
@@ -222,8 +225,8 @@ app.post('/api/recipes', (req, res) => {
         } else {
             console.log(`Recipe ${result.insertId} saved`);
             if (type == 'User-uploaded') {
-                db.query('UPDATE RECIPES set type_id = id WHERE name = ? AND ingredients = ? AND instruction = ? AND type = ? AND thumb = ?',
-                [name, ingredients, instruction, type, thumb],
+                db.query('UPDATE RECIPES set type_id = id WHERE name = ? AND ingredients = ? AND instruction = ? AND type = ? AND thumb = ? AND user_id = ? AND username = ?',
+                [name, ingredients, instruction, type, thumb, userId, username],
                 (err2, result2) => {
                     if (err2) {
                         console.log(err2);
@@ -243,6 +246,21 @@ app.get('/api/users/:userId/favorites', (req, res) => {
     const { userId } = req.params;
     console.error('Get all favorite recipes of a user');
     db.query('SELECT * FROM USER_RECIPE_FAV WHERE user_id = ?', [userId], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Error retrieving recipe favorites');
+        } else {
+            console.error('Got favorites of user');
+            res.status(200).json(result);
+        }
+    });
+});
+
+// Get all uploaded recipes of a user
+app.get('/api/users/:userId/recipes', (req, res) => {
+    const { userId } = req.params;
+    console.error('Get all uploaded recipes of a user');
+    db.query('SELECT * FROM RECIPES WHERE user_id = ?', [userId], (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).send('Error retrieving recipe favorites');

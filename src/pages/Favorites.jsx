@@ -17,6 +17,13 @@ const Favorites = ({ user, userId }) => {
         .catch(err => {console.log(err)});
     }, [userId]);
 
+    const showType = (meal) => {
+        if (meal.type === 'User-uploaded') {
+            return (<>By {meal.username}</>);
+        }
+        return (meal.type);
+    };
+
     return (
         <>
 
@@ -31,10 +38,10 @@ const Favorites = ({ user, userId }) => {
             {recipes[0] ? recipes.map((meal) => (
                 <div className="col-sm-3">
                 <a href={`/recipe/${meal.type}/${meal.type_id}`}>
-                <h4 className="primarycolor" style={{'text-align':'center'}}>{meal.name}</h4>
-                <p className="h6 primarycolor" style={{'text-align':'center'}}>{meal.type}</p>
+                <h4 className="primarycolor" style={{'textAlign':'center'}}>{meal.name}</h4>
+                <p className="h6 primarycolor" style={{'textAlign':'center'}}>{showType(meal)}</p>
                 <div key={meal.type_id} className="fakeimg">
-                    <img src={meal.thumb} alt={meal.name} className="shadow" />
+                    <img src={meal.thumb} alt={meal.name} className="shadow fakeimga" />
                     <div className="overlay">
                         <div className="text"></div>
                     </div>

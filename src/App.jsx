@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { getUserInfo } from "./api";
 
 import NavBar from "./components/NavBar.jsx";
-import Footer from "./components/Footer.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 
 import Home from "./pages/Home.jsx";
@@ -18,6 +17,7 @@ import AdvancedSearch from "./pages/AdvancedSearch.jsx";
 import UploadRecipe from "./pages/UploadRecipe.jsx";
 import Recipe2 from "./pages/Recipe2.jsx";
 import UploadedRecipes from "./pages/UploadedRecipes.jsx";
+import EditRecipe from "./pages/EditRecipe.jsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') !== null);
@@ -76,7 +76,7 @@ function App() {
             <AdvancedSearch />
         </PrivateRoute>
         <PrivateRoute path="/upload" isLoggedIn={isLoggedIn}>
-            <UploadRecipe />
+            <UploadRecipe user={user} userId={userId} />
         </PrivateRoute>
         <PrivateRoute path="/recipe/User-uploaded/:id" isLoggedIn={isLoggedIn}>
             <Recipe2 userId={userId} />
@@ -84,9 +84,10 @@ function App() {
         <PrivateRoute path="/recipe/User-uploaded" isLoggedIn={isLoggedIn}>
             <UploadedRecipes userId={userId} />
         </PrivateRoute>
+        <PrivateRoute path="/recipe/edit/:id" isLoggedIn={isLoggedIn}>
+            <EditRecipe userId={userId} />
+        </PrivateRoute>
         </Switch>
-
-        <Footer />
 
         </div>
 

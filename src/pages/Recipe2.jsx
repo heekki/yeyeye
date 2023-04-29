@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getRecipe, fetchRecipeByType, fetchFavorite, addFavorite, deleteFavorite } from '../api';
+import { getRecipe, fetchRecipeByType, fetchFavorite, addFavorite, deleteFavorite, deleteRecipe } from '../api';
 
 function Recipe2({ userId }) {
     const [recipe, setRecipe] = useState(null);
@@ -14,7 +14,7 @@ function Recipe2({ userId }) {
     };
 
     useEffect(() => {
-        getRecipe(id, setRecipe)
+        getRecipe(id)
             .then(res => {setRecipe(res.data)})
             .catch(err => {console.log(err)});
         if (recipeByType) {
@@ -51,6 +51,37 @@ function Recipe2({ userId }) {
         }
     };
 
+    const goEdit = () => {
+        window.location.replace(`/recipe/edit/${id}`);
+    }
+
+    const goDelete = () => {
+        if (window.confirm('Are you sure you want to delete this recipe?')) {
+            deleteRecipe(id)
+            .then(res => {
+                alert('Recipe has been deleted.');
+                window.location.replace('/recipe/User-uploaded');
+            })
+            .catch(err => {
+                alert(err);
+                console.log(err);
+            });
+        } else {
+            console.log('no delete');
+        }
+    }
+
+    const showButtons = () => {
+        if (recipe.user_id == userId) {
+            return (
+                <>
+                <button type="button" className="btn btn-outline-light btn-block" onClick={goEdit}>Edit Recipe</button>
+                <button type="button" className="btn btn-outline-light btn-block" onClick={goDelete}>Delete Recipe</button>
+                </>
+            );
+        }
+    }
+
     return (
         <>
         <div className="row mb-5">
@@ -61,6 +92,7 @@ function Recipe2({ userId }) {
                 <img src={recipe.thumb} alt={recipe.name} className="shadow-lg img-thumbnail" />
             </a>
             <button type="button" className={favorite ? "btn btn-outline-dark btn-block" : "btn btn-outline-light btn-block"} onClick={handleFavoriteClick}>{favorite ? "Unfavorite" : "Favorite"}</button>
+            {showButtons()}
         </div>
         </div>
 

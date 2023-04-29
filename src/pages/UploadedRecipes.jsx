@@ -33,10 +33,10 @@ const UploadedRecipes = ({ user, userId }) => {
             {recipes[0] ? recipes.map((meal) => (
                 <div className="col-sm-3">
                 <a href={`/recipe/${meal.type}/${meal.type_id}`}>
-                <h4 className="primarycolor" style={{'text-align':'center'}}>{meal.name}</h4>
-                <p className="h6 primarycolor" style={{'text-align':'center'}}>{meal.type}</p>
+                <h4 className="primarycolor" style={{'textAlign':'center'}}>{meal.name}</h4>
+                <p className="h6 primarycolor" style={{'textAlign':'center'}}>By {meal.username}</p>
                 <div key={meal.type_id} className="fakeimg">
-                    <img src={meal.thumb} alt={meal.name} className="shadow" />
+                    <img src={meal.thumb} alt={meal.name} className="shadow fakeimga" />
                     <div className="overlay">
                         <div className="text"></div>
                     </div>
