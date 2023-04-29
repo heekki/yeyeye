@@ -20,6 +20,7 @@ function Recipe2({ user, userId }) {
     const [discuss, setDiscuss] = useState([]);
     const [editShow, setEditShow] = useState(false);
     const [editForm, setEditForm] = useState('');
+    const [editId, setEditId] = useState(null);
     const { id } = useParams();
     const recipeType = "User-uploaded";
 
@@ -110,7 +111,7 @@ function Recipe2({ user, userId }) {
     const handleEdit = (e) => {
         e.preventDefault();
         const { editcomment } = e.target.elements;
-        updateDiscuss(id, userId, editcomment.value)
+        updateDiscuss(editId, editcomment.value)
             .then((response) => {console.log(response)})
             .catch((error) => {alert(error);});
         setEditForm('');
@@ -122,8 +123,9 @@ function Recipe2({ user, userId }) {
         setEditForm(e.target.value);
     };
 
-    const goEditComment = (message) => {
+    const goEditComment = (commentId, message) => {
         console.log('edit');
+        setEditId(commentId);
         setEditForm(message);
         setEditShow(true);
     }
@@ -144,7 +146,10 @@ function Recipe2({ user, userId }) {
         }
     }
 
-    console.log(user.username);
+    const showPosted = (posted) => {
+        const d = new Date(posted*1000);
+        return d.toLocaleString();
+    }
 
     return (
         <>
@@ -192,15 +197,34 @@ function Recipe2({ user, userId }) {
                     <button type="submit" className="btn btn-outline-light">Comment</button>
                 </div>
             </form>
+            <div className="box">
             <ul>
                 {discuss[0] && discuss.map(
                     (d, index) => {
                         if (d.user_id == userId) {
                             return (
                                 <>
-                                <li key={d.comment_id}>#{d.comment_id} by {d.username}: {d.message}</li>
-                                <button onClick={() => goEditComment(d.message)}>Edit</button>
-                                <button onClick={() => goDeleteComment(d.comment_id)}>Delete</button>
+                                <li key={d.comment_id}>#{d.comment_id} by {d.username} - {showPosted(d.posted)}
+                                <br />
+                                {d.message}
+                                <button style={{'float':'right'}}  className="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                </button>
+                                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <button className="dropdown-item btn-outline-light" onClick={() => goDeleteComment(d.comment_id)}>Delete</button>
+                                    <button className="dropdown-item btn-outline-light" onClick={() => goEditComment(d.comment_id, d.message)}>Edit</button>
+                                </div>
+                                { (editShow && editId == d.comment_id) ? (
+                                <form onSubmit={handleEdit}>
+                                    <div className="form-group">
+                                        <textarea id="editcomment" name="editcomment" className="form-control" value={editForm} onChange={handleInputChange} required></textarea>
+                                    </div>
+                                    <div className="text-right">
+                                        <button onClick={() => setEditShow(false)} className="btn btn-danger mr-2 px-3">Discard</button>
+                                        <button type="submit" className="btn btn-outline-light">Edit</button>
+                                    </div>
+                                </form>
+                                ) : (null)}
+                                </li>
                                 </>
                             )
                         } else {
@@ -213,16 +237,8 @@ function Recipe2({ user, userId }) {
                     }
                 )}
             </ul>
-            { editShow ? (
-            <form onSubmit={handleEdit}>
-                <div className="form-group">
-                    <textarea id="editcomment" name="editcomment" className="form-control" value={editForm} onChange={handleInputChange} required></textarea>
-                </div>
-                <div className="text-right">
-                    <button type="submit" className="btn btn-outline-light">Edit</button>
-                </div>
-            </form>
-            ) : (null)}
+
+            </div>
             <br />
             <button className="btn btn-outline-light" onClick={goBack}>Back to Home</button>
         </div>

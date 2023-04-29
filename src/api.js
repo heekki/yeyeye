@@ -53,7 +53,7 @@ export const getDiscuss = (id) => api.get(`/discuss/${id}`);
 
 export const addDiscuss = (recipeId, userId, message, username) => api.post(`/discuss/${recipeId}`, { userId, message, username });
 
-export const updateDiscuss = (recipeId, userId, message) => api.put(`/discuss/${recipeId}`, { userId, message });
+export const updateDiscuss = (id, message) => api.put(`/discuss/${id}`, { message });
 
 export const deleteDiscuss = (id) => api.delete(`/discuss/${id}`);
 

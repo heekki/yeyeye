@@ -363,14 +363,12 @@ app.post('/api/discuss/:recipeId', (req, res) => {
 
 // Update a comment
 app.put('/api/discuss/:recipeId', (req, res) => {
-    const { recipeId } = req.params;
-    const { userId, message } = req.body;
+    const { id } = req.params;
+    const { message } = req.body;
     console.log('Update a comment');
-    console.log(userId);
-    console.log(recipeId);
     db.query(
-        'UPDATE RECIPE_DISCUSS SET message = ? WHERE recipe_id = ? AND user_id = ?',
-        [message, recipeId, userId],
+        'UPDATE RECIPE_DISCUSS SET message = ? WHERE comment_id = ?',
+        [message, id],
         (err, result) => {
             if (err) {
                 console.log(err);
