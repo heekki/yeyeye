@@ -21,7 +21,6 @@ function Recipe2({ user, userId }) {
     const [editShow, setEditShow] = useState(false);
     const [editForm, setEditForm] = useState('');
     const [editId, setEditId] = useState(null);
-    const [scrollValue, setScrollValue] = useState(0);
     const { id } = useParams();
     const recipeType = "User-uploaded";
 
@@ -210,7 +209,7 @@ function Recipe2({ user, userId }) {
                                 <li key={d.comment_id}><b>#{d.comment_id} by {d.username} - {showPosted(d.posted)}</b>
                                 <button style={{'float':'right'}}  className="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </button>
-                                <br style={{'line-height':'2em'}} />
+                                <br style={{'lineHeight':'2em'}} />
                                 {d.message}
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <button className="dropdown-item btn-outline-light" onClick={() => goDeleteComment(d.comment_id)}>Delete</button>
@@ -234,7 +233,7 @@ function Recipe2({ user, userId }) {
                             return (
                                 <>
                                 <li key={d.comment_id}><b>#{d.comment_id} by {d.username} - {showPosted(d.posted)}</b>
-                                <br style={{'line-height':'2em'}} />
+                                <br style={{'lineHeight':'2em'}} />
                                 {d.message}
                                 </li>
                                 </>
