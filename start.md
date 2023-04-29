@@ -4,7 +4,7 @@ How to start:
 - MySQL Database + phpMyAdmin
 - MySQL DB on port 3306
 - XAMPP Manager -> Manage Servers -> Start All
-- Database name: food_db (import food_db.sql)
+- Database name: flavorfinds_db (import flavorfinds_db.sql)
 - phpMyAdmin on port 80 (localhost/phpmyadmin)
 
 2. NodeJS + Express

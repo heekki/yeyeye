@@ -13,7 +13,7 @@ const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'food_db',
+    database: 'flavorfinds_db',
     port: 3306,
     connectionLimit: 10,
 });
