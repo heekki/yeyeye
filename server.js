@@ -15,7 +15,7 @@ const testing = async (myPrompt) => {
     const completion = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: myPrompt,
-        max_tokens: 200,
+        max_tokens: 300,
         temperature: 0
     });
     return completion.data.choices[0].text;
