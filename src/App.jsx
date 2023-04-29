@@ -60,7 +60,7 @@ function App() {
         <PrivateRoute path="/profile" isLoggedIn={isLoggedIn}>
             <UserProfile handleLogout={handleLogout} user={user} />
         </PrivateRoute>
-        <PrivateRoute path="/recipe/:id" isLoggedIn={isLoggedIn}>
+        <PrivateRoute path="/recipe/TheMealDB/:id" isLoggedIn={isLoggedIn}>
             <Recipe userId={userId} />
         </PrivateRoute>
         <PrivateRoute path="/favorites" isLoggedIn={isLoggedIn}>

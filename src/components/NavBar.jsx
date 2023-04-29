@@ -1,7 +1,7 @@
 const NavBar = ({ isLoggedIn, handleLogout, user }) => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark sticky-top primarybbcolor" style={{'textAlign':'center'}}>
-            <a className="navbar-brand" href="/">Flavor Finds</a>
+            <a className="navbar-brand" href="/">Food App</a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                 <span className="navbar-toggler-icon"></span>
             </button>

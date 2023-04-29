@@ -15,7 +15,7 @@ function SearchBar(props) {
 
     return (
         <form onSubmit={handleSearch} className="input-group mb-3">
-            <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search for recipes" className="form-control" style={{'borderRadius':'8px 0 0 8px'}} />
+            <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Search for recipes from TheMealDB" className="form-control" style={{'borderRadius':'8px 0 0 8px'}} />
             <div className="input-group-append">
             <button type="submit" className="btn btn-outline-light">Search</button>
             </div>

@@ -63,7 +63,7 @@ const AdvancedSearch = () => {
         <div className="row my-5 primarycolor">
             {searchResults && searchResults.map((meal) => (
                 <div className="col-sm-3">
-                <a href={`/recipe/${meal.idMeal}`}>
+                <a href={`/recipe/TheMealDB/${meal.idMeal}`}>
                 <h5 className="primarycolor" style={{'textAlign':'center'}}>{meal.strMeal}</h5>
                 <div key={meal.idMeal} className="fakeimg">
                     <img src={meal.strMealThumb} alt={meal.strMeal} className="shadow" />
