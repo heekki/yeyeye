@@ -77,7 +77,7 @@ function Recipe2({ user, userId }) {
         if (window.confirm('Are you sure you want to delete this recipe?')) {
             deleteRecipe(id)
             .then(res => {
-                //alert('Recipe has been deleted.');
+                alert('Recipe has been deleted.');
                 window.location.replace('/recipe/User-uploaded');
             })
             .catch(err => {
