@@ -16,11 +16,7 @@ export const register = (username, firstname, lastname, email, mobilenumber, pas
 
 export const login = (username, password) => api.post('/login', { username, password });
 
-export const getUserInfo = (id, setUser) => {
-    api.get(`/users/${id}`)
-        .then(res => {setUser(res.data);})
-        .catch(err => {console.log(err)});
-};
+export const getUserInfo = (id) => api.get(`/users/${id}`);
 
 export const updateUserInfo = (id, formData) => api.put(`/users/${id}`, formData);
 
@@ -52,6 +48,14 @@ export const fetchFavorite = (userId, recipeId, setFavorite) => {
 export const addFavorite = (userId, recipeId) => api.post(`/users/${userId}/favorites`, { recipeId });
 
 export const deleteFavorite = (userId, recipeId) => api.delete(`/users/${userId}/favorites/${recipeId}`);
+
+export const getDiscuss = (id) => api.get(`/discuss/${id}`);
+
+export const addDiscuss = (recipeId, userId, message, username) => api.post(`/discuss/${recipeId}`, { userId, message, username });
+
+export const updateDiscuss = (recipeId, userId, message) => api.put(`/discuss/${recipeId}`, { userId, message });
+
+export const deleteDiscuss = (id) => api.delete(`/discuss/${id}`);
 
 // themealdb api
 export const searchRecipe = (searchTerm, setSearchResults) => {

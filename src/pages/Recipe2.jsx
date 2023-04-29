@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getRecipe, fetchRecipeByType, fetchFavorite, addFavorite, deleteFavorite, deleteRecipe } from '../api';
+import {
+    getRecipe,
+    fetchRecipeByType,
+    fetchFavorite,
+    addFavorite,
+    deleteFavorite,
+    deleteRecipe,
+    getDiscuss,
+    addDiscuss,
+    updateDiscuss,
+    deleteDiscuss
+} from '../api';
 
-function Recipe2({ userId }) {
+function Recipe2({ user, userId }) {
     const [recipe, setRecipe] = useState(null);
     const [recipeByType, setRecipeByType] = useState(null);
     const [favorite, setFavorite] = useState(false);
+    const [discuss, setDiscuss] = useState([]);
+    const [editShow, setEditShow] = useState(false);
+    const [editForm, setEditForm] = useState('');
     const { id } = useParams();
     const recipeType = "User-uploaded";
 
@@ -22,6 +36,9 @@ function Recipe2({ userId }) {
         } else {
             fetchRecipeByType(recipeType, id, setRecipeByType);
         }
+        getDiscuss(id)
+            .then(res => {setDiscuss(res.data)})
+            .catch(err => {console.log(err)});
     }, [userId, id, recipeByType]);
 
     if (!recipe) {
@@ -51,11 +68,11 @@ function Recipe2({ userId }) {
         }
     };
 
-    const goEdit = () => {
+    const goEditRecipe = () => {
         window.location.replace(`/recipe/edit/${id}`);
     }
 
-    const goDelete = () => {
+    const goDeleteRecipe = () => {
         if (window.confirm('Are you sure you want to delete this recipe?')) {
             deleteRecipe(id)
             .then(res => {
@@ -75,16 +92,63 @@ function Recipe2({ userId }) {
         if (recipe.user_id == userId) {
             return (
                 <>
-                <button type="button" className="btn btn-outline-light btn-block" onClick={goEdit}>Edit Recipe</button>
-                <button type="button" className="btn btn-outline-light btn-block" onClick={goDelete}>Delete Recipe</button>
+                <button type="button" className="btn btn-outline-light btn-block" onClick={goEditRecipe}>Edit Recipe</button>
+                <button type="button" className="btn btn-outline-light btn-block" onClick={goDeleteRecipe}>Delete Recipe</button>
                 </>
             );
         }
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const { comment } = e.target.elements;
+        addDiscuss(id, userId, comment.value, user.username)
+            .then((response) => {console.log(response)})
+            .catch((error) => {alert(error);});
+    };
+
+    const handleEdit = (e) => {
+        e.preventDefault();
+        const { editcomment } = e.target.elements;
+        updateDiscuss(id, userId, editcomment.value)
+            .then((response) => {console.log(response)})
+            .catch((error) => {alert(error);});
+        setEditForm('');
+        setEditShow(false);
+    };
+
+    const handleInputChange = (e) => {
+        e.preventDefault();
+        setEditForm(e.target.value);
+    };
+
+    const goEditComment = (message) => {
+        console.log('edit');
+        setEditForm(message);
+        setEditShow(true);
+    }
+
+    const goDeleteComment = (commentId) => {
+        if (window.confirm('Are you sure you want to delete this comment?')) {
+            deleteDiscuss(commentId)
+            .then(res => {
+                alert('Comment has been deleted.');
+                //window.location.replace('/recipe/User-uploaded/');
+            })
+            .catch(err => {
+                alert(err);
+                console.log(err);
+            });
+        } else {
+            console.log('no delete');
+        }
+    }
+
+    console.log(user.username);
+
     return (
         <>
-        <div className="row mb-5">
+        <div className="row mb-2">
 
         <div className="col-sm-3">
         <div className="fakeimga img-hover">
@@ -110,11 +174,60 @@ function Recipe2({ userId }) {
             <div style={{'whiteSpace':'pre-line'}}>
             {recipe.instruction}
             </div>
-            <br />
-            <button className="btn btn-outline-light" onClick={goBack}>Back to Home</button>
         </div>
 
         </div>
+
+        <div className="row">
+        <div className="col-sm-3">
+        </div>
+        <div className="col-sm-9 primarycolor">
+            <hr />
+            <h4>Discussion:</h4>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <textarea id="comment" name="comment" className="form-control" required></textarea>
+                </div>
+                <div className="text-right">
+                    <button type="submit" className="btn btn-outline-light">Comment</button>
+                </div>
+            </form>
+            <ul>
+                {discuss[0] && discuss.map(
+                    (d, index) => {
+                        if (d.user_id == userId) {
+                            return (
+                                <>
+                                <li key={d.comment_id}>#{d.comment_id} by {d.username}: {d.message}</li>
+                                <button onClick={() => goEditComment(d.message)}>Edit</button>
+                                <button onClick={() => goDeleteComment(d.comment_id)}>Delete</button>
+                                </>
+                            )
+                        } else {
+                            return (
+                                <>
+                                <li key={d.comment_id}>#{d.comment_id} by {d.username}: {d.message}</li>
+                                </>
+                            )
+                        }
+                    }
+                )}
+            </ul>
+            { editShow ? (
+            <form onSubmit={handleEdit}>
+                <div className="form-group">
+                    <textarea id="editcomment" name="editcomment" className="form-control" value={editForm} onChange={handleInputChange} required></textarea>
+                </div>
+                <div className="text-right">
+                    <button type="submit" className="btn btn-outline-light">Edit</button>
+                </div>
+            </form>
+            ) : (null)}
+            <br />
+            <button className="btn btn-outline-light" onClick={goBack}>Back to Home</button>
+        </div>
+        </div>
+
         </>
     );
 }

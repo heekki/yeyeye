@@ -326,6 +326,81 @@ app.delete('/api/users/:userId/favorites/:recipeId', (req, res) => {
     res.status(200).send(`Recipe ${recipeId} deleted successfully`);
 });
 
+// Get a specific recipe discussion by recipe ID
+app.get('/api/discuss/:recipeId', (req, res) => {
+    const { recipeId } = req.params;
+    console.log('Get a specific recipe discussion by recipe ID');
+    db.query('SELECT * FROM RECIPE_DISCUSS WHERE recipe_id = ? ORDER BY posted', [recipeId], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send(`Error retrieving discussion for recipe ${recipeId}`);
+        } else if (result.length === 0) {
+            res.status(404).send(`Discussion for recipe ${recipeId} not found`);
+        } else {
+            res.status(200).json(result);
+        }
+    });
+});
+
+// Add a new discussion comment
+app.post('/api/discuss/:recipeId', (req, res) => {
+    const { recipeId } = req.params;
+    const { userId, message, username } = req.body;
+    const posted = Math.floor(Date.now()/1000);
+    console.log('Add a new discussion comment');
+    db.query('INSERT INTO RECIPE_DISCUSS (user_id, recipe_id, message, posted, username) VALUES (?, ?, ?, ?, ?)',
+    [userId, recipeId, message, posted, username],
+    (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send('Error saving new recipe discuss');
+        } else {
+            console.log(`Comment ${result.insertId} saved`);
+            res.status(201).send(`Comment ${result.insertId} saved successfully`);
+        }
+    });
+});
+
+// Update a comment
+app.put('/api/discuss/:recipeId', (req, res) => {
+    const { recipeId } = req.params;
+    const { userId, message } = req.body;
+    console.log('Update a comment');
+    console.log(userId);
+    console.log(recipeId);
+    db.query(
+        'UPDATE RECIPE_DISCUSS SET message = ? WHERE recipe_id = ? AND user_id = ?',
+        [message, recipeId, userId],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+                res.status(500).send(`Error retrieving comment`);
+            } else {
+                console.error('Update comment success');
+                res.status(200).send(`Comment updated successfully`);
+            }
+        }
+    );
+});
+
+// Delete a comment
+app.delete('/api/discuss/:id', (req, res) => {
+    const { id } = req.params;
+    console.error('Delete a comment');
+    db.query('DELETE FROM RECIPE_DISCUSS WHERE comment_id = ?', [id], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send(`Error deleting recipe ${id}`);
+        } else if (result.affectedRows === 0) {
+            console.error(`Recipe ${id} not found`);
+            res.status(404).send(`Recipe ${id} not found`);
+        } else {
+            console.log(`Recipe ${id} deleted`);
+            res.status(200).send(`Recipe ${id} deleted successfully`);
+        }
+    });
+});
+
 PORT=4000
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);

@@ -32,7 +32,9 @@ function App() {
 
     useEffect(() => {
         if (userId) {
-            getUserInfo(userId, setUser);
+            getUserInfo(userId)
+            .then(res => {setUser(res.data);})
+            .catch(err => {console.log(err)});
         }
     }, [userId]);
 
@@ -79,7 +81,7 @@ function App() {
             <UploadRecipe user={user} userId={userId} />
         </PrivateRoute>
         <PrivateRoute path="/recipe/User-uploaded/:id" isLoggedIn={isLoggedIn}>
-            <Recipe2 userId={userId} />
+            <Recipe2 user={user} userId={userId} />
         </PrivateRoute>
         <PrivateRoute path="/recipe/User-uploaded" isLoggedIn={isLoggedIn}>
             <UploadedRecipes userId={userId} />
