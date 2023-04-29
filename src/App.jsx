@@ -15,6 +15,9 @@ import Recipe from "./pages/Recipe.jsx";
 import Favorites from "./pages/Favorites.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
 import AdvancedSearch from "./pages/AdvancedSearch.jsx";
+import UploadRecipe from "./pages/UploadRecipe.jsx";
+import Recipe2 from "./pages/Recipe2.jsx";
+import UploadedRecipes from "./pages/UploadedRecipes.jsx";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') !== null);
@@ -71,6 +74,15 @@ function App() {
         </PrivateRoute>
         <PrivateRoute path="/search" isLoggedIn={isLoggedIn}>
             <AdvancedSearch />
+        </PrivateRoute>
+        <PrivateRoute path="/upload" isLoggedIn={isLoggedIn}>
+            <UploadRecipe />
+        </PrivateRoute>
+        <PrivateRoute path="/recipe/User-uploaded/:id" isLoggedIn={isLoggedIn}>
+            <Recipe2 userId={userId} />
+        </PrivateRoute>
+        <PrivateRoute path="/recipe/User-uploaded" isLoggedIn={isLoggedIn}>
+            <UploadedRecipes userId={userId} />
         </PrivateRoute>
         </Switch>
 

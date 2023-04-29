@@ -10,6 +10,8 @@ const NavBar = ({ isLoggedIn, handleLogout, user }) => {
                 {isLoggedIn ? (
                     <>
                     <a className="nav-item nav-link" href="/favorites">Favorites</a>
+                    <a className="nav-item nav-link" href="/recipe/User-uploaded">Recipes</a>
+                    <a className="nav-item nav-link" href="/upload">Upload</a>
                     <a className="nav-item nav-link" href="/profile">{user.firstname} ({user.username})</a>
                     </>
                 ) : null}

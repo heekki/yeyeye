@@ -24,14 +24,16 @@ export const getUserInfo = (id, setUser) => {
 
 export const updateUserInfo = (id, formData) => api.put(`/users/${id}`, formData);
 
-export const addRecipe = (name, ingredients, instruction, type, typeId, thumb) =>
-    api.post('/recipes', { name, ingredients, instruction, type, typeId, thumb });
+export const addRecipe = (name, ingredients, instruction, type, thumb, typeId) =>
+    api.post('/recipes', { name, ingredients, instruction, type, thumb, typeId });
 
 export const updateRecipe = (id, name, ingredients, instruction) => api.put(`/recipes/${id}`, { name, ingredients, instruction });
 
 export const getRecipe = (id) => api.get(`/recipes/${id}`);
 
 export const deleteRecipe = (id) => api.delete(`/recipes/${id}`)
+
+export const getRecipesByType = (type) => api.get(`/recipes/type/${type}`);
 
 export const getAllFavorites = (userId) => api.get(`/users/${userId}/favorites`);
 
@@ -68,7 +70,7 @@ export const fetchRecipe = async (id, setRecipe) => {
 export const fetchRandom = async () => {
     const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php');
     const data = await res.json();
-    window.location.replace(`/recipe/${data.meals[0].idMeal}`);
+    window.location.replace(`/recipe/TheMealDB/${data.meals[0].idMeal}`);
 };
 
 export const fetchAreas = async (setAreas) => {

@@ -114,10 +114,25 @@ app.put('/api/users/:id', (req, res) => {
 
 // Get all recipes
 app.get('/api/recipes', (req, res) => {
+    console.log('Get all recipes');
     db.query('SELECT * FROM RECIPES', (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).send('Error retrieving recipes');
+        } else {
+            res.status(200).json(result);
+        }
+    });
+});
+
+// Get all recipes by type
+app.get('/api/recipes/type/:type', (req, res) => {
+    const { type } = req.params;
+    console.log('Get all recipes by type');
+    db.query('SELECT * FROM RECIPES WHERE type = \'User-uploaded\'', [type], (err, result) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send(`Error retrieving recipes with type ${type}`);
         } else {
             res.status(200).json(result);
         }
@@ -194,18 +209,30 @@ app.post('/api/recipes', (req, res) => {
         ingredients,
         instruction,
         type,
-        typeId,
-        thumb
+        thumb,
+        typeId
     } = req.body;
     db.query(
-    'INSERT IGNORE INTO RECIPES (name, ingredients, instruction, type, type_id, thumb) VALUES (?, ?, ?, ?, ?, ?)',
-    [name, ingredients, instruction, type, typeId, thumb],
+    'INSERT IGNORE INTO RECIPES (name, ingredients, instruction, type, thumb, type_id) VALUES (?, ?, ?, ?, ?, ?)',
+    [name, ingredients, instruction, type, thumb, typeId],
     (err, result) => {
         if (err) {
             console.log(err);
             res.status(500).send('Error saving new recipe');
         } else {
             console.log(`Recipe ${result.insertId} saved`);
+            if (type == 'User-uploaded') {
+                db.query('UPDATE RECIPES set type_id = id WHERE name = ? AND ingredients = ? AND instruction = ? AND type = ? AND thumb = ?',
+                [name, ingredients, instruction, type, thumb],
+                (err2, result2) => {
+                    if (err2) {
+                        console.log(err2);
+                        res.status(500).send('Error saving/updating new recipe');
+                    } else {
+                        console.log(`Recipe type_id updated successfully`);
+                    }
+                });
+            }
             res.status(201).send(`Recipe ${result.insertId} saved successfully`);
         }
     });

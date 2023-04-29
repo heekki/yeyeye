@@ -9,6 +9,10 @@ const Home = ({ user }) => {
         window.location.replace('/search');
     };
 
+    const goUpload = () => {
+        window.location.replace('/upload');
+    };
+
     return (
         <>
 
@@ -16,6 +20,7 @@ const Home = ({ user }) => {
         <div className="col-sm-12 primarycolor">
             <h1 className="pb-2 mt-4 mb-2 border-bottom">Home</h1>
             <p className="lead">Welcome, {user.firstname}. ({user.username})</p>
+            <button type="button" className="btn btn-outline-light btn-block" onClick={goUpload}>Upload Recipe</button>
         </div>
         </div>
 

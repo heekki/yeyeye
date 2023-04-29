@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { getAllFavorites, getRecipe } from '../api';
+import { getRecipesByType, getRecipe } from '../api';
 
-const Favorites = ({ user, userId }) => {
+const UploadedRecipes = ({ user, userId }) => {
     const [recipes, setRecipes] = useState([]);
+    const recipeType = "User-uploaded";
 
     useEffect(() => {
-        getAllFavorites(userId)
+        getRecipesByType(recipeType)
         .then(res => {
-            const allFavorites = res.data;
-            for (const favorite of allFavorites) {
-                getRecipe(favorite.recipe_id)
+            const allRecipes = res.data;
+            console.log(allRecipes);
+            for (const rec of allRecipes) {
+                getRecipe(rec.id)
                 .then(res => {setRecipes(arr => [...arr, res.data])})
                 .catch(err => {console.log(err)});
             }
@@ -22,8 +24,8 @@ const Favorites = ({ user, userId }) => {
 
         <div className="row mb-5">
         <div className="col-sm-12 primarycolor">
-            <h1 className="pb-2 mt-4 mb-2 border-bottom">Favorites</h1>
-            <p className="lead">Your list of favorite recipes:</p>
+            <h1 className="pb-2 mt-4 mb-2 border-bottom">Recipes</h1>
+            <p className="lead">List of all uploaded recipes:</p>
         </div>
         </div>
 
@@ -43,7 +45,7 @@ const Favorites = ({ user, userId }) => {
                 </div>
             )) : (
                 <div className="col-sm-12 primarycolor">
-                <p>No favorite recipes found.</p>
+                <p>No user-uploaded recipes found.</p>
                 </div>
             )}
         </div>
@@ -52,4 +54,4 @@ const Favorites = ({ user, userId }) => {
     );
 };
 
-export default Favorites;
+export default UploadedRecipes;

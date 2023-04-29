@@ -35,7 +35,7 @@ const AdvancedSearch = () => {
         </div>
         </div>
 
-        <div class="row mb-3">
+        <div className="row mb-3">
         <div className="col-sm-12 primarycolor">
             <p className="h5">By Area:</p>
             <hr />
@@ -47,7 +47,7 @@ const AdvancedSearch = () => {
         </div>
         </div>
 
-        <div class="row mb-3">
+        <div className="row mb-3">
         <div className="col-sm-12 primarycolor">
             <br />
             <p className="h5">By Category:</p>
