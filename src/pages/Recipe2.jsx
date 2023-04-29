@@ -77,7 +77,7 @@ function Recipe2({ user, userId }) {
         if (window.confirm('Are you sure you want to delete this recipe?')) {
             deleteRecipe(id)
             .then(res => {
-                alert('Recipe has been deleted.');
+                //alert('Recipe has been deleted.');
                 window.location.replace('/recipe/User-uploaded');
             })
             .catch(err => {
@@ -106,7 +106,7 @@ function Recipe2({ user, userId }) {
         addDiscuss(id, userId, comment.value, user.username)
             .then((response) => {console.log(response)})
             .catch((error) => {alert(error);});
-        window.location.reload();
+        setTimeout(() => {window.location.reload()}, 500);
     };
 
     const handleEdit = (e) => {
@@ -117,7 +117,7 @@ function Recipe2({ user, userId }) {
             .catch((error) => {alert(error);});
         setEditForm('');
         setEditShow(false);
-        window.location.reload();
+        setTimeout(() => {window.location.reload()}, 500);
     };
 
     const handleInputChange = (e) => {
@@ -137,7 +137,7 @@ function Recipe2({ user, userId }) {
             deleteDiscuss(commentId)
             .then(res => {
                 alert('Comment has been deleted.');
-                window.location.reload();
+                setTimeout(() => {window.location.reload()}, 500);
             })
             .catch(err => {
                 alert(err);
@@ -169,6 +169,7 @@ function Recipe2({ user, userId }) {
 
         <div className="col-sm-9 primarycolor">
             <h1>{recipe.name}</h1>
+            <h4>Uploaded by: {recipe.username}</h4>
             <hr />
             <h4>Ingredients:</h4>
             <ul>

@@ -4,6 +4,23 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 require('dotenv').config();
+const { Configuration, OpenAIApi } = require('openai');
+
+const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+const testing = async (myPrompt) => {
+    const completion = await openai.createCompletion({
+        model: "text-davinci-003",
+        prompt: myPrompt,
+        max_tokens: 200,
+        temperature: 0
+    });
+    return completion.data.choices[0].text;
+};
+const testing2 = testing();
 
 const app = express();
 
@@ -17,6 +34,25 @@ const db = mysql.createPool({
     database: 'food_db',
     port: 3306,
     connectionLimit: 10,
+});
+
+// OpenAI
+app.post('/api/openai', async (req, res) => {
+    const { request } = req.body;
+    try {
+        const response = await testing(`give a random recipe with the following: ${request}`);
+        console.log(`request: ${request}`);
+        console.log(`response: ${response}`);
+        res.status(200).json({ message: response });
+    } catch (error) {
+        if (error.response) {
+            console.log(error.response.status);
+            console.log(error.response.data);
+        } else {
+            console.log(error.message);
+        }
+        res.status(500).send(error);
+    }
 });
 
 // User registration
@@ -237,7 +273,7 @@ app.post('/api/recipes', (req, res) => {
                     }
                 });
             }
-            res.status(201).send(`Recipe ${result.insertId} saved successfully`);
+            res.status(201).send(`${result.insertId}`);
         }
     });
 });

@@ -10,10 +10,10 @@ const UploadRecipe = ({ user, userId }) => {
         e.preventDefault();
         const { name, ingredients, instruction, thumb } = e.target.elements;
         addRecipe(name.value, ingredients.value, instruction.value, recipeType, thumb.value, 0, userId, user.username)
-        .then((response) => {
-            console.log(response);
+        .then((res) => {
+            console.log(res.data);
             alert(`Recipe "${name.value}" has been uploaded successfully.`);
-            window.location.replace('/');
+            window.location.replace(`recipe/User-uploaded/${res.data}`);
         })
         .catch((error) => {
             alert(error);

@@ -57,6 +57,8 @@ export const updateDiscuss = (id, message) => api.put(`/discuss/${id}`, { messag
 
 export const deleteDiscuss = (id) => api.delete(`/discuss/${id}`);
 
+export const openAiRequest = async (request) => await api.post('/openai', { request });
+
 // themealdb api
 export const searchRecipe = (searchTerm, setSearchResults) => {
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`)

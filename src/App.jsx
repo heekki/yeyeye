@@ -75,7 +75,7 @@ function App() {
             <EditProfile user={user} userId={userId} />
         </PrivateRoute>
         <PrivateRoute path="/search" isLoggedIn={isLoggedIn}>
-            <AdvancedSearch />
+            <AdvancedSearch user={user} userId={userId} />
         </PrivateRoute>
         <PrivateRoute path="/upload" isLoggedIn={isLoggedIn}>
             <UploadRecipe user={user} userId={userId} />
