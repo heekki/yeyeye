@@ -27,16 +27,25 @@ const EditRecipe = ({ userId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { name, ingredients, instruction, thumb } = e.target.elements;
-        updateRecipe(id, name.value, ingredients.value, instruction.value, thumb.value)
+        let thumbnail = thumb.value;
+        if (thumbnail == 'Default') {
+            thumbnail = 'https://cdn-icons-png.flaticon.com/512/666/666201.png';
+        }
+        console.log(thumbnail);
+        updateRecipe(id, name.value, ingredients.value, instruction.value, thumbnail)
         .then((response) => {
             console.log(response);
             alert(`Recipe "${name.value}" has been edited successfully.`);
-            window.location.replace(`/recipe/edit/${id}`);
+            window.location.replace(`/recipe/User-uploaded/${id}`);
         })
         .catch((error) => {
             alert(error);
         });
     };
+
+    const goBack = () => {
+        window.location.replace(`/recipe/User-uploaded/${id}`);
+    }
 
     if (recipeForm.user_id) {
         if (userId != recipeForm.user_id) {
@@ -73,6 +82,7 @@ const EditRecipe = ({ userId }) => {
             <input type="text" id="thumb" name="thumb" className="form-control" value={recipeForm.thumb} onChange={handleInputChange} required />
         </div>
         <div className="text-right">
+            <button onClick={goBack} className="btn btn-danger mr-2 px-3">Discard</button>
             <button type="submit" className="btn btn-outline-light">Edit</button>
         </div>
         </form>

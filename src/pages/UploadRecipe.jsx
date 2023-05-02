@@ -9,7 +9,11 @@ const UploadRecipe = ({ user, userId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { name, ingredients, instruction, thumb } = e.target.elements;
-        addRecipe(name.value, ingredients.value, instruction.value, recipeType, thumb.value, 0, userId, user.username)
+        let thumbnail = thumb.value;
+        if (thumbnail == 'Default') {
+            thumbnail = 'https://cdn-icons-png.flaticon.com/512/666/666201.png';
+        }
+        addRecipe(name.value, ingredients.value, instruction.value, recipeType, thumbnail, 0, userId, user.username)
         .then((res) => {
             console.log(res.data);
             alert(`Recipe "${name.value}" has been uploaded successfully.`);
@@ -46,7 +50,7 @@ const UploadRecipe = ({ user, userId }) => {
         </div>
         <div className="form-group">
             <label htmlFor="thumb">Thumbnail Image Link:</label>
-            <input type="text" id="thumb" name="thumb" className="form-control" required />
+            <input type="text" id="thumb" name="thumb" value="Default" className="form-control" />
         </div>
         <div className="text-right">
             <button type="submit" className="btn btn-outline-light">Upload</button>
